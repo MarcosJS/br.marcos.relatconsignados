@@ -17,11 +17,11 @@ public class Consignado {
 	String cpf, 
 	double valorParcela, 
 	double valorConsignado) {
-		this.setContratante(contratante.substring(1));
-		this.setMatricula(matricula);
-		this.setOperacao(operacao);
+		this.setContratante(ModString.removEspacoIniFim(contratante));
+		this.setMatricula(ModString.removEspacoIniFim(matricula));
+		this.setOperacao(ModString.removEspacoIniFim(operacao));
 		this.setSequencia(sequencia);
-		this.setCpf(cpf);
+		this.setCpf(ModString.removEspacoIniFim(cpf));
 		this.setValorParcela(valorParcela);
 		this.setValorConsignado(valorConsignado);
 	}
@@ -34,17 +34,13 @@ public class Consignado {
 	String cpf, 
 	String valorParcela, 
 	String valorConsignado) {
-		if(contratante.charAt(0) == ' ') {//tratando espacos no nome
-			contratante = contratante.substring(1);
-		}
-		if(contratante.charAt(contratante.length() - 1) == ' ')
-		this.setContratante(contratante.substring(1));
-		this.setMatricula(matricula);
-		this.setOperacao(operacao);
+		this.setContratante(ModString.removEspacoIniFim(contratante));
+		this.setMatricula(ModString.removEspacoIniFim(matricula));
+		this.setOperacao(ModString.removEspacoIniFim(operacao));
 		this.setSequencia(Integer.parseInt(sequencia));
-		this.setCpf(cpf);
-		this.setValorParcela(Double.parseDouble(valorParcela.replaceFirst(",", ".")));
-		this.setValorConsignado(Double.parseDouble(valorConsignado.replaceFirst(",", ".")));
+		this.setCpf(ModString.removEspacoIniFim(cpf));
+		this.setValorParcela(Double.parseDouble(ModString.formatParaConvertDecimal(valorParcela)));
+		this.setValorConsignado(Double.parseDouble(ModString.formatParaConvertDecimal(valorParcela)));
 	}
 
 	public String getContratante() {

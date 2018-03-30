@@ -9,7 +9,24 @@ import java.io.IOException;
  * Classe usada para teste de testes
  */
 public final class Laboratorio {
- 
+	/*TESTE DA CLASSE ModString
+	//Funcao removEspacoIniFim 
+    String nome1 = "teste1    ";
+    String nome2 = "  teste2   ";
+    String nome3 = "   teste3";
+    ModString m = new ModString();
+    nome1 = m.removEspacoIniFim(nome1);//Teste da funcao removEspacoIniFim
+    nome2 = ModString.removEspacoIniFim(nome2);
+    nome3 = m.removEspacoIniFim(nome3);
+    System.out.println("Teste da função removEspacoIniFim da Classe ModString");
+    System.out.println("Nome1:"+nome1+",nome2:"+nome2+",nome3:"+nome3+".");
+    
+    //Funcao formatParaConvertDecimal
+    String numero = "1.999.079,35";
+    numero = ModString.formatParaConvertDecimal(numero);//teste da funcao formatParaConvertDecimal
+    System.out.println(numero);
+    */
+
     public static void main(String[] args) throws IOException {
         String fileName = "C:\\Drivers\\workspace-eclipse\\br.marcos.relatconsignados\\testepdfbox\\consignadobb-jan\\TO0326012018.pdf";
         PDDocument document = null;
@@ -21,7 +38,9 @@ public final class Laboratorio {
             String pdfLinhas[] = pdfText.split("\n");
             int cont = 0;
             
-            /*for(int i = 0; i < pdfLinhas.length; i++) {
+            //System.out.println(pdfText);
+            
+            for(int i = 0; i < pdfLinhas.length; i++) {
             	String pdfDados[] = pdfLinhas[i].split(" ");
             	if(pdfDados[0].equals("Continua")) { break;}
             	if(i > 7) {         	
@@ -37,26 +56,19 @@ public final class Laboratorio {
 		            	contratante = contratante.concat(" "+pdfDados[j]);
 		            }
 		            cont++;
-		            
-	            	System.out.println(contratante+" "+matricula+" "+operacao+" "+sequencia+" "+cpf+" "+valor+" "+consignado);
+		            Consignado consig = new Consignado(contratante, matricula, operacao, sequencia, cpf, valor, consignado);
+		            //System.out.print(contratante+" "+matricula+" "+operacao+" "+sequencia+" "+cpf+" "+valor+" "+consignado);
+		            System.out.println(consig.getContratante()+" "+consig.getMatricula()+" "+consig.getOperacao()+" "+consig.getSequencia()+" "+consig.getCpf()+" "+consig.getValorParcela()+" "+consig.getValorConsignado());
+		     
 	            }
-            }*/
+            }
             System.out.println("Operacoes: "+cont);
+            
         //finally {
             if(document != null) {
             	document.close();
             }
         //}
        
-     /*TESTE DA CLASSE ModString 
-       String nome1 = "teste1    ";
-       String nome2 = "  teste2   ";
-       String nome3 = "   teste3";
-       ModString m = new ModString();
-       nome1 = m.removEspacoIniFim(nome1);//Teste funcao removEspacoIniFim
-       nome2 = ModString.removEspacoIniFim(nome2);
-       nome3 = m.removEspacoIniFim(nome3);
-       System.out.println("Teste da função removEspacoIniFim da Classe ModString");
-       System.out.println("Nome1:"+nome1+",nome2:"+nome2+",nome3:"+nome3+".");*/
     }
 }
