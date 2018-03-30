@@ -1,4 +1,4 @@
-package br.marcos.relatconsigados;
+package br.marcos.relatconsignados;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ public class Consignacoes {
 	private int quantOperacoes;
 	private String dataRepasse;
 	private double valorRepasse;
-	private ArrayList consigados;
+	private ArrayList<Consignado> consigados;
 	
 	Consignacoes(int quantOp, String dataRepasse, double valorRepasse, Consignado[] consig) {
 		this.setQuantOperacoes(quantOp);

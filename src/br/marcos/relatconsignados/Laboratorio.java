@@ -1,4 +1,4 @@
-package br.marcos.relatconsigados;
+package br.marcos.relatconsignados;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;

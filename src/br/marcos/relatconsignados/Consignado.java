@@ -1,4 +1,4 @@
-package br.marcos.relatconsigados;
+package br.marcos.relatconsignados;
 
 public class Consignado {
 	private String contratante;
@@ -34,7 +34,7 @@ public class Consignado {
 	String cpf, 
 	String valorParcela, 
 	String valorConsignado) {
-		if(contratante.charAt(0) == ' ') {
+		if(contratante.charAt(0) == ' ') {//tratando espacos no nome
 			contratante = contratante.substring(1);
 		}
 		if(contratante.charAt(contratante.length() - 1) == ' ')
