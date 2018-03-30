@@ -11,7 +11,7 @@ import java.io.IOException;
 public final class Laboratorio {
  
     public static void main(String[] args) throws IOException {
-        String fileName = "/home/marcos/testepdfbox/consignadobb-jan/TO0326012018.pdf";
+        String fileName = "C:\\Drivers\\workspace-eclipse\\br.marcos.relatconsignados\\testepdfbox\\consignadobb-jan\\TO0326012018.pdf";
         PDDocument document = null;
         
         //try {
@@ -21,7 +21,7 @@ public final class Laboratorio {
             String pdfLinhas[] = pdfText.split("\n");
             int cont = 0;
             
-            for(int i = 0; i < pdfLinhas.length; i++) {
+            /*for(int i = 0; i < pdfLinhas.length; i++) {
             	String pdfDados[] = pdfLinhas[i].split(" ");
             	if(pdfDados[0].equals("Continua")) { break;}
             	if(i > 7) {         	
@@ -40,12 +40,23 @@ public final class Laboratorio {
 		            
 	            	System.out.println(contratante+" "+matricula+" "+operacao+" "+sequencia+" "+cpf+" "+valor+" "+consignado);
 	            }
-        }
-            System.out.print("Operacoes: "+cont);
+            }*/
+            System.out.println("Operacoes: "+cont);
         //finally {
             if(document != null) {
             	document.close();
             }
         //}
+       
+     /*TESTE DA CLASSE ModString 
+       String nome1 = "teste1    ";
+       String nome2 = "  teste2   ";
+       String nome3 = "   teste3";
+       ModString m = new ModString();
+       nome1 = m.removEspacoIniFim(nome1);//Teste funcao removEspacoIniFim
+       nome2 = ModString.removEspacoIniFim(nome2);
+       nome3 = m.removEspacoIniFim(nome3);
+       System.out.println("Teste da função removEspacoIniFim da Classe ModString");
+       System.out.println("Nome1:"+nome1+",nome2:"+nome2+",nome3:"+nome3+".");*/
     }
 }
