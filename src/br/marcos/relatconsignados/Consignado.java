@@ -1,93 +1,83 @@
 package br.marcos.relatconsignados;
 
 public class Consignado {
-	private String contratante;
+	private String nome;
 	private String matricula;
-	private String operacao;
-	private int sequencia;
-	private String cpf;
+	private String idConsignado;
 	private double valorParcela;
 	private double valorConsignado;
+	private int parcelaAtual;
+	private int totalParcelas;
+	/*sequencia a ser criada nas subclasse*/
+	//private int sequencia;
+	/*cpf a ser criado nas subclasses*/
+	//private String cpf;
 	
 	Consignado(
-	String contratante, 
+	String nome, 
 	String matricula, 
-	String operacao, 
-	int sequencia,
-	String cpf, 
+	String idConsignado, 
 	double valorParcela, 
-	double valorConsignado) {
-		this.setContratante(ModString.removEspacoIniFim(contratante));
+	double valorConsignado,
+	String parcelas) {
+		this.setNome(ModString.removEspacoIniFim(nome));
 		this.setMatricula(ModString.removEspacoIniFim(matricula));
-		this.setOperacao(ModString.removEspacoIniFim(operacao));
-		this.setSequencia(sequencia);
-		this.setCpf(ModString.removEspacoIniFim(cpf));
+		this.setIdConsignado(ModString.removEspacoIniFim(idConsignado));
 		this.setValorParcela(valorParcela);
 		this.setValorConsignado(valorConsignado);
+		this.setParcelaAtual(Integer.parseInt(ModString.capturarParcelaAtual(parcelas)));
+		this.setTotalParcelas(Integer.parseInt(ModString.capturarTotalParcelas(parcelas)));
 	}
 	
 	public Consignado(
-	String contratante, 
+	String nome, 
 	String matricula, 
-	String operacao, 
-	String sequencia,
-	String cpf, 
+	String idConsignado, 
 	String valorParcela, 
-	String valorConsignado) {
-		this.setContratante(ModString.removEspacoIniFim(contratante));
+	String valorConsignado,
+	String parcelas) {
+		this.setNome(ModString.removEspacoIniFim(nome));
 		this.setMatricula(ModString.removEspacoIniFim(matricula));
-		this.setOperacao(ModString.removEspacoIniFim(operacao));
-		this.setSequencia(Integer.parseInt(sequencia));
-		this.setCpf(ModString.removEspacoIniFim(cpf));
-		this.setValorParcela(Double.parseDouble(ModString.formatParaConvertDecimal(valorParcela)));
-		this.setValorConsignado(Double.parseDouble(ModString.formatParaConvertDecimal(valorParcela)));
+		this.setIdConsignado(ModString.removEspacoIniFim(idConsignado));
+		this.setValorParcela(Double.parseDouble(ModString.formatParaConversDecimal(valorParcela)));
+		this.setValorConsignado(Double.parseDouble(ModString.formatParaConversDecimal(valorParcela)));
+		this.setParcelaAtual(Integer.parseInt(ModString.capturarParcelaAtual(parcelas)));
+		this.setTotalParcelas(Integer.parseInt(ModString.capturarTotalParcelas(parcelas)));
+	}
+	
+	public int obterRestoParcelas() {
+		return totalParcelas - (parcelaAtual - 1);
+	}
+	
+	public String getNome() {
+		return nome;
 	}
 
-	public String getContratante() {
-		return contratante;
-	}
-
-	public void setContratante(String contratante) {
-		this.contratante = contratante;
+	private void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(String matricula) {
+	private void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 
-	public String getOperacao() {
-		return operacao;
+	public String getIdConsignado() {
+		return idConsignado;
 	}
 
-	public void setOperacao(String operacao) {
-		this.operacao = operacao;
-	}
-
-	public int getSequencia() {
-		return sequencia;
-	}
-
-	public void setSequencia(int sequencia) {
-		this.sequencia = sequencia;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	private void setIdConsignado(String idConsignado) {
+		this.idConsignado = idConsignado;
 	}
 
 	public double getValorParcela() {
 		return valorParcela;
 	}
 
-	public void setValorParcela(double valorParcela) {
+	private void setValorParcela(double valorParcela) {
 		this.valorParcela = valorParcela;
 	}
 
@@ -95,7 +85,23 @@ public class Consignado {
 		return valorConsignado;
 	}
 
-	public void setValorConsignado(double valorConsignado) {
+	private void setValorConsignado(double valorConsignado) {
 		this.valorConsignado = valorConsignado;
+	}
+
+	public int getParcelaAtual() {
+		return parcelaAtual;
+	}
+
+	private void setParcelaAtual(int parcelaAtual) {
+		this.parcelaAtual = parcelaAtual;
+	}
+
+	public int getTotalParcelas() {
+		return totalParcelas;
+	}
+
+	private void setTotalParcelas(int totalParcelas) {
+		this.totalParcelas = totalParcelas;
 	}
 }

@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Drivers/workspace-eclipse/br.marcos.relatconsignados/libs/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Drivers/workspace-eclipse/br.marcos.relatconsignados/libs/fontbox-2.0.9.jar"/>
-	<classpathentry kind="lib" path="C:/Drivers/workspace-eclipse/br.marcos.relatconsignados/libs/pdfbox-2.0.9.jar"/>
-	<classpathentry kind="lib" path="C:/Drivers/workspace-eclipse/br.marcos.relatconsignados/libs/pdfbox-debugger-2.0.9.jar"/>
-	<classpathentry kind="lib" path="C:/Drivers/workspace-eclipse/br.marcos.relatconsignados/libs/pdfbox-tools-2.0.9.jar"/>
-	<classpathentry kind="lib" path="C:/Drivers/workspace-eclipse/br.marcos.relatconsignados/libs/preflight-2.0.9.jar"/>
-	<classpathentry kind="lib" path="C:/Drivers/workspace-eclipse/br.marcos.relatconsignados/libs/xmpbox-2.0.9.jar"/>
+	<classpathentry kind="lib" path="/home/marcos/eclipse-workspace/br.marcos.relatconsignados/libs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/home/marcos/eclipse-workspace/br.marcos.relatconsignados/libs/fontbox-2.0.9.jar"/>
+	<classpathentry kind="lib" path="/home/marcos/eclipse-workspace/br.marcos.relatconsignados/libs/pdfbox-2.0.9.jar"/>
+	<classpathentry kind="lib" path="/home/marcos/eclipse-workspace/br.marcos.relatconsignados/libs/pdfbox-debugger-2.0.9.jar"/>
+	<classpathentry kind="lib" path="/home/marcos/eclipse-workspace/br.marcos.relatconsignados/libs/pdfbox-tools-2.0.9.jar"/>
+	<classpathentry kind="lib" path="/home/marcos/eclipse-workspace/br.marcos.relatconsignados/libs/preflight-2.0.9.jar"/>
+	<classpathentry kind="lib" path="/home/marcos/eclipse-workspace/br.marcos.relatconsignados/libs/xmpbox-2.0.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
