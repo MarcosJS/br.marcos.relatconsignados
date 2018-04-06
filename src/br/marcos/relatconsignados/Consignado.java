@@ -8,10 +8,6 @@ public class Consignado {
 	private double valorConsignado;
 	private int parcelaAtual;
 	private int totalParcelas;
-	/*sequencia a ser criada nas subclasse*/
-	//private int sequencia;
-	/*cpf a ser criado nas subclasses*/
-	//private String cpf;
 	
 	Consignado(
 	String nome, 
