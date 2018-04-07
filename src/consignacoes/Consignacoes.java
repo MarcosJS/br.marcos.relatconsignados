@@ -1,6 +1,8 @@
-package br.marcos.relatconsignados;
+package consignacoes;
 
 import java.util.ArrayList;
+
+import consignado.Consignado;
 
 public class Consignacoes {
 	private int quantOperacoes;
@@ -8,11 +10,11 @@ public class Consignacoes {
 	private double valorRepasse;
 	private ArrayList<Consignado> consignados;
 	
-	Consignacoes() {
-		this.setQuantOperacoes(0);
+	public Consignacoes() {
+		this.consignados = new ArrayList<Consignado>();
+		this.setQuantOperacoes(consignados.size());
 		this.setDataRepasse(null);
 		this.setValorRepasse(0);
-		this.consignados = new ArrayList<Consignado>();
 	}
 	
 	public Consignacoes obterNovos(Consignacoes consignacoes) {
@@ -67,7 +69,11 @@ public class Consignacoes {
 	}
 	
 	public void addConsignado(Consignado c) {
-		this.consignados.add(c);
+		if((consignados != null) && (!this.consultarConsignado(c.getIdConsignado()))) {
+			this.consignados.add(c);
+			this.setQuantOperacoes(this.getQuantOperacoes() + 1);
+			//System.out.println("adicionando: "+c.obterRestoParcelas()+" "+c.getNome()+" "+c.getMatricula()+" "+c.getIdConsignado()+" "+c.getValorParcela()+" "+c.getValorConsignado());
+		}
 	}
 	
 	public void removConsignado(String idConsignado) {
@@ -91,19 +97,32 @@ public class Consignacoes {
 		return consig;
 	}
 	
+	public boolean consultarConsignado(String idConsignado) {
+		boolean resultado = false;
+		if(consignados != null) {
+			for(Consignado c: this.getListConsignacoes()) {
+				if(c.getIdConsignado().equals(idConsignado)) {
+					resultado = true;
+					break;
+				}
+			}
+		}
+		return resultado;
+	}
+	
 	public Consignado[]  getListConsignacoes() {
 		Consignado[] consigs = new Consignado[this.consignados.size()];
 		for(int i = 0; i < this.consignados.size(); i++) {
 			consigs[i] = this.consignados.get(i);
 		}
-		return null;
+		return consigs;
 	}
 	
 	public int getQuantOperacoes() {
 		return quantOperacoes;
 	}
 	public void setQuantOperacoes(int quantOperacoes) {
-		this.quantOperacoes = consignados.size();
+		this.quantOperacoes = quantOperacoes;
 	}
 	public String getDataRepasse() {
 		return dataRepasse;

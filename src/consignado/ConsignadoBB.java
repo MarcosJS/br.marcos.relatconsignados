@@ -1,10 +1,10 @@
-package br.marcos.relatconsignados;
+package consignado;
 
 public class ConsignadoBB extends Consignado{
 	private int seqOperacao;
 	private String cpf;
 	
-	ConsignadoBB(
+	public ConsignadoBB(
 	String nome, 
 	String matricula, 
 	String idConsignado, 
@@ -18,7 +18,7 @@ public class ConsignadoBB extends Consignado{
 		this.setCpf(cpf);
 	}
 	
-	ConsignadoBB(
+	public ConsignadoBB(
 	String nome, 
 	String matricula, 
 	String idConsignado, 
