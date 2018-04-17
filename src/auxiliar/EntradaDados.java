@@ -12,9 +12,9 @@ import consignado.ConsignadoBB;
 
 public class EntradaDados {
 	
-	public static ConsignadoBB[] carregarConsignacoesBB(String arquivo, int inicioApos, int fimAntes) throws InvalidPasswordException, IOException {
+	public static ConsignadoBB[] carregarConsignacoesBB(File arquivo, int inicioApos, int fimAntes) throws InvalidPasswordException, IOException {
 		PDDocument document = null;
-        document = PDDocument.load(new File(arquivo));
+        document = PDDocument.load(arquivo);
 	    PDFTextStripper stripper = new PDFTextStripper();
 	    String pdfText = stripper.getText(document).toString();
 	    String pdfLinhas[] = pdfText.split("\n");
