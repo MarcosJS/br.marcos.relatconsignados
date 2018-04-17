@@ -1,7 +1,5 @@
 package consignado;
 
-import auxiliar.EntradaDados;
-
 public class Consignado {
 	private String nome;
 	private String matricula;
@@ -17,30 +15,15 @@ public class Consignado {
 	String idConsignado, 
 	double valorParcela, 
 	double valorConsignado,
-	String parcelas) {
-		this.setNome(EntradaDados.removEspacoIniFim(nome));
-		this.setMatricula(EntradaDados.removEspacoIniFim(matricula));
-		this.setIdConsignado(EntradaDados.removEspacoIniFim(idConsignado));
+	int parcelaAtual,
+	int totalParcelas) {
+		this.setNome(nome);
+		this.setMatricula(matricula);
+		this.setIdConsignado(idConsignado);
 		this.setValorParcela(valorParcela);
 		this.setValorConsignado(valorConsignado);
-		this.setParcelaAtual(Integer.parseInt(EntradaDados.capturarParcelaAtual(parcelas)));
-		this.setTotalParcelas(Integer.parseInt(EntradaDados.capturarTotalParcelas(parcelas)));
-	}
-	
-	public Consignado(
-	String nome, 
-	String matricula, 
-	String idConsignado, 
-	String valorParcela, 
-	String valorConsignado,
-	String parcelas) {
-		this.setNome(EntradaDados.removEspacoIniFim(nome));
-		this.setMatricula(EntradaDados.removEspacoIniFim(matricula));
-		this.setIdConsignado(EntradaDados.removEspacoIniFim(idConsignado));
-		this.setValorParcela(Double.parseDouble(EntradaDados.formatParaConversDecimal(valorParcela)));
-		this.setValorConsignado(Double.parseDouble(EntradaDados.formatParaConversDecimal(valorParcela)));
-		this.setParcelaAtual(Integer.parseInt(EntradaDados.capturarParcelaAtual(parcelas)));
-		this.setTotalParcelas(Integer.parseInt(EntradaDados.capturarTotalParcelas(parcelas)));
+		this.setParcelaAtual(parcelaAtual);
+		this.setTotalParcelas(totalParcelas);
 	}
 	
 	public int obterRestoParcelas() {

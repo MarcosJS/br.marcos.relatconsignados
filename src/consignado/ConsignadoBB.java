@@ -10,27 +10,14 @@ public class ConsignadoBB extends Consignado{
 	String idConsignado, 
 	double valorParcela, 
 	double valorConsignado,
-	String parcelas,
+	int parcelaAtual,
+	int totalParcelas,
 	int seqOperacao,
 	String cpf) {
-		super(nome, matricula, idConsignado, valorParcela, valorConsignado, parcelas);
+		super(nome, matricula, idConsignado, valorParcela, valorConsignado, parcelaAtual, totalParcelas);
 		this.setSeqOperacao(seqOperacao);
 		this.setCpf(cpf);
 	}
-	
-	public ConsignadoBB(
-	String nome, 
-	String matricula, 
-	String idConsignado, 
-	String valorParcela, 
-	String valorConsignado,
-	String parcelas,
-	String seqOperacao,
-	String cpf) {
-		super(nome, matricula, idConsignado, valorParcela, valorConsignado, parcelas);
-		this.setSeqOperacao(Integer.parseInt(seqOperacao));
-		this.setCpf(cpf);
-			}
 	
 	public int obterRestoParcelas() {
 		int resto = super.obterRestoParcelas();

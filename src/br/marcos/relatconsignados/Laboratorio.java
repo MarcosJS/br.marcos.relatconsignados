@@ -25,11 +25,11 @@ public final class Laboratorio {
 	public static void main(String[] args) throws InvalidPasswordException, IOException, BadLocationException {
 		
 		File[] arquivo = new File[4];
-		arquivo[0] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbmar1.pdf");
-		arquivo[1] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbmar2.pdf");
-		arquivo[2] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbfev1.pdf");
-		arquivo[3] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbfev2.pdf");
-		/*JFileChooser explorador = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		//arquivo[0] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbmar1.pdf");
+		//arquivo[1] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbmar2.pdf");
+		//arquivo[2] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbfev1.pdf");
+		//arquivo[3] = new File("c:/workspace/br.marcos.relatconsignados/testepdfbox/consignadobb/bbfev2.pdf");
+		JFileChooser explorador = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		
 		for(int i = 0; i < 4; i++) {
 			explorador.setDialogTitle("Escolha o "+i+"° relatório consignado a ser carregado");
@@ -38,7 +38,7 @@ public final class Laboratorio {
 				arquivo[i] = explorador.getSelectedFile();
 				System.out.println(arquivo[i].getAbsolutePath());
 			}
-		}*/
+		}
 		
     	ConsignacoesBB consi = new ConsignacoesBB(arquivo[0], 7, 6, arquivo[1], 7, 5);
         ConsignacoesBB consi2 = new ConsignacoesBB(arquivo[2], 7, 6, arquivo[3], 7, 5);

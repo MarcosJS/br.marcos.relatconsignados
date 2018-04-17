@@ -8,11 +8,30 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+import consignacoes.Consignacoes;
 import consignado.ConsignadoBB;
 
-public class EntradaDados {
+public class ControleConsignacoes {
+	private Consignacoes consignados;
 	
-	public static ConsignadoBB[] carregarConsignacoesBB(File arquivo, int inicioApos, int fimAntes) throws InvalidPasswordException, IOException {
+	public ControleConsignacoes() {
+		this.consignados = new Consignacoes();
+	}
+	
+	public ControleConsignacoes(Consignacoes consignados) {
+		this.consignados = consignados;
+	}
+	
+	public void carregarConsignacoesBB(File arquivo1, int inicioApos1, int fimAntes1, File arquivo2, int inicioApos2, int fimAntes2) throws InvalidPasswordException, IOException {
+		for(ConsignadoBB cB: convertArqConsigBB(arquivo1, inicioApos1, fimAntes1)) {
+			consignados.addConsignado(cB);
+		}
+		for(ConsignadoBB cB: convertArqConsigBB(arquivo2, inicioApos2, fimAntes2)) {
+			consignados.addConsignado(cB);
+		}
+	}
+	
+	private ConsignadoBB[] convertArqConsigBB(File arquivo, int inicioApos, int fimAntes) throws InvalidPasswordException, IOException {
 		PDDocument document = null;
         document = PDDocument.load(arquivo);
 	    PDFTextStripper stripper = new PDFTextStripper();
@@ -25,19 +44,20 @@ public class EntradaDados {
 	    	String pdfDados[] = pdfLinhas[i].split(" ");
 	    	
 	    	if(i > inicioApos) {         	
-	        	String consignado = pdfDados[pdfDados.length - 1];
-	        	String valorParcela = pdfDados[pdfDados.length - 2];
-	        	String cpf = pdfDados[pdfDados.length - 3];
-	        	String sequencia = pdfDados[pdfDados.length - 4];
-	        	String operacao = pdfDados[pdfDados.length - 5];
-	        	String matricula = pdfDados[pdfDados.length - 6];
+	        	double consignado = Double.parseDouble(formatParaConversDecimal(pdfDados[pdfDados.length - 1]));
+	        	double valorParcela = Double.parseDouble(formatParaConversDecimal(pdfDados[pdfDados.length - 2]));
+	        	String cpf = removEspacoIniFim(pdfDados[pdfDados.length - 3]);
+	        	int sequencia = Integer.parseInt(removEspacoIniFim(pdfDados[pdfDados.length - 4]));
+	        	String operacao = removEspacoIniFim(pdfDados[pdfDados.length - 5]);
+	        	String matricula = removEspacoIniFim(pdfDados[pdfDados.length - 6]);
 	        	String contratante = "";
 	        
 	            for(int j = 0; j < (pdfDados.length - 6); j++) {
 	            	contratante = contratante.concat(" "+pdfDados[j]);
 	            }
 	            
-	            ConsignadoBB consig = new ConsignadoBB(contratante, matricula, operacao, valorParcela, consignado, "0/0", sequencia, cpf);
+	            contratante = removEspacoIniFim(contratante);
+	            ConsignadoBB consig = new ConsignadoBB(contratante, matricula, operacao, valorParcela, consignado, 0, 0, sequencia, cpf);
 	            
 	            consignadosA.add(consig);
 	    	}
@@ -73,7 +93,7 @@ public class EntradaDados {
 	public static String formatParaConversDecimal(String string) {
 		string  = string.replace(".", "");
 		string = string.replace(",", ".");
-		return string;
+		return removEspacoIniFim(string);
 	}
 	
 	public static boolean convertParaBoolean(String string) {
