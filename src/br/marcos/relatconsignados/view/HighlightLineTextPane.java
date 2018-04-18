@@ -9,7 +9,12 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 public class HighlightLineTextPane extends JTextPane {
-	  public HighlightLineTextPane() {
+	/**
+	* 
+	*/
+	private static final long serialVersionUID = 1L;
+
+	public HighlightLineTextPane() {
 	    setOpaque(false);
 	  }
 	  public HighlightLineTextPane(StyledDocument d) {

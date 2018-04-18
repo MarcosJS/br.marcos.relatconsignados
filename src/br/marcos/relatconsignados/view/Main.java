@@ -5,38 +5,25 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import javax.swing.JTabbedPane;
 import java.awt.SystemColor;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JDesktopPane;
-import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.UIManager;
 
 public class Main {
-	private static JTextField textField;
-	private static JTextField textField_1;
-	private static JTextField textField_2;
-	private static JTextField textField_3;
+	private static JTextField textField_4;
+	private static JTextField textField_5;
+	private static JTextField textField_6;
+	private static JTextField textField_7;
+	private static JTextField textField_8;
+	private static JTextField textField_9;
     public static void main(String[] args) throws IOException {
     	JFrame principal = new JFrame();
     	principal.getContentPane().setBackground(Color.DARK_GRAY);
@@ -51,7 +38,7 @@ public class Main {
     	
     	JPanel panelBB = new JPanel();
     	panelBB.setBackground(Color.WHITE);
-    	tabelaDeSelecao.addTab("Banco do Brasil", null, panelBB, null);
+    	//tabelaDeSelecao.addTab("Banco do Brasil", null, panelBB, null);
     	panelBB.setLayout(null);
     	
     	JPanel menu = new JPanel();
@@ -61,86 +48,10 @@ public class Main {
     	menu.setBackground(new Color(255, 255, 102));
     	menu.setLayout(null);
     	
-    	JLabel lblNewLabel = new JLabel("1\u00BA Arquivo");
-    	lblNewLabel.setBounds(10, 39, 59, 14);
-    	menu.add(lblNewLabel);
-    	
-    	JLabel lblNewLabel_1 = new JLabel("2\u00BA Arquivo");
-    	lblNewLabel_1.setBounds(10, 67, 59, 14);
-    	menu.add(lblNewLabel_1);
-    	
-    	JLabel lblNewLabel_2 = new JLabel("1\u00BA Arquivo");
-    	lblNewLabel_2.setBounds(10, 120, 59, 14);
-    	menu.add(lblNewLabel_2);
-    	
-    	JLabel lblNewLabel_3 = new JLabel("2\u00BA Arquivo");
-    	lblNewLabel_3.setBounds(10, 151, 59, 14);
-    	menu.add(lblNewLabel_3);
-    	
-    	textField = new JTextField();
-    	textField.setBounds(72, 33, 154, 20);
-    	menu.add(textField);
-    	textField.setColumns(10);
-    	
-    	textField_1 = new JTextField();
-    	textField_1.setBounds(72, 61, 154, 20);
-    	menu.add(textField_1);
-    	textField_1.setColumns(10);
-    	
-    	textField_2 = new JTextField();
-    	textField_2.setBounds(72, 114, 154, 20);
-    	menu.add(textField_2);
-    	textField_2.setColumns(10);
-    	
-    	textField_3 = new JTextField();
-    	textField_3.setBounds(72, 145, 154, 20);
-    	menu.add(textField_3);
-    	textField_3.setColumns(10);
-    	
     	JSeparator separator = new JSeparator();
     	separator.setForeground(Color.BLUE);
     	separator.setBounds(10, 214, 294, 1);
     	menu.add(separator);
-    	
-    	JLabel lblConsignadoDoMs = new JLabel("Consignado do M\u00EAs Atual:");
-    	lblConsignadoDoMs.setBounds(10, 11, 154, 14);
-    	menu.add(lblConsignadoDoMs);
-    	
-    	JLabel lblConsignadoDoMs_1 = new JLabel("Consignado do M\u00EAs Anterior:");
-    	lblConsignadoDoMs_1.setBounds(10, 92, 166, 14);
-    	menu.add(lblConsignadoDoMs_1);
-    	
-    	JButton btnBroser = new JButton("Browser");
-    	btnBroser.setForeground(Color.WHITE);
-    	btnBroser.setBackground(SystemColor.desktop);
-    	btnBroser.setFont(new Font("Tahoma", Font.PLAIN, 10));
-    	btnBroser.setBounds(226, 30, 78, 23);
-    	menu.add(btnBroser);
-    	
-    	JButton btnBrowser_2 = new JButton("Browser");
-    	btnBrowser_2.setForeground(Color.WHITE);
-    	btnBrowser_2.setBackground(SystemColor.desktop);
-    	btnBrowser_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
-    	btnBrowser_2.setBounds(226, 58, 78, 23);
-    	menu.add(btnBrowser_2);
-    	
-    	JButton btnBrowser_1 = new JButton("Browser");
-    	btnBrowser_1.setForeground(Color.WHITE);
-    	btnBrowser_1.setBackground(SystemColor.desktop);
-    	btnBrowser_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
-    	btnBrowser_1.setBounds(226, 111, 78, 23);
-    	menu.add(btnBrowser_1);
-    	
-    	JButton btnBrowser = new JButton("Browser");
-    	btnBrowser.setForeground(Color.WHITE);
-    	btnBrowser.setBackground(SystemColor.desktop);
-    	btnBrowser.setFont(new Font("Tahoma", Font.PLAIN, 10));
-    	btnBrowser.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent arg0) {
-    		}
-    	});
-    	btnBrowser.setBounds(226, 142, 78, 23);
-    	menu.add(btnBrowser);
     	
     	JButton btnNewButton = new JButton("CARREGAR");
     	btnNewButton.setForeground(Color.WHITE);
@@ -190,26 +101,164 @@ public class Main {
     	btnInalterado.setBounds(66, 362, 182, 23);
     	menu.add(btnInalterado);
     	
+    	JPanel selArqPanel = new JPanel();
+    	selArqPanel.setOpaque(false);
+    	selArqPanel.setBounds(10, 11, 294, 154);
+    	menu.add(selArqPanel);
+    	selArqPanel.setBackground(Color.ORANGE);
+    	selArqPanel.setLayout(null);
+    	
+    	JLabel label = new JLabel("Consignado do M\u00EAs Atual:");
+    	label.setBounds(0, 0, 125, 14);
+    	selArqPanel.add(label);
+    	
+    	JButton button = new JButton("Browser");
+    	button.setForeground(Color.WHITE);
+    	button.setFont(new Font("Tahoma", Font.PLAIN, 10));
+    	button.setBackground(Color.BLACK);
+    	button.setBounds(216, 16, 78, 23);
+    	selArqPanel.add(button);
+    	
+    	textField_4 = new JTextField();
+    	textField_4.setColumns(10);
+    	textField_4.setBounds(64, 19, 154, 20);
+    	selArqPanel.add(textField_4);
+    	
+    	JButton button_1 = new JButton("Browser");
+    	button_1.setForeground(Color.WHITE);
+    	button_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
+    	button_1.setBackground(Color.BLACK);
+    	button_1.setBounds(216, 100, 78, 23);
+    	selArqPanel.add(button_1);
+    	
+    	textField_5 = new JTextField();
+    	textField_5.setColumns(10);
+    	textField_5.setBounds(64, 103, 154, 20);
+    	selArqPanel.add(textField_5);
+    	
+    	JLabel label_2 = new JLabel("Consignado do M\u00EAs Anterior:");
+    	label_2.setBounds(0, 81, 166, 14);
+    	selArqPanel.add(label_2);
+    	
+    	JLabel label_1 = new JLabel("1\u00BA Arquivo");
+    	label_1.setBounds(0, 25, 59, 14);
+    	selArqPanel.add(label_1);
+    	
+    	JLabel label_7 = new JLabel("2\u00BA Arquivo");
+    	label_7.setBounds(0, 58, 59, 14);
+    	selArqPanel.add(label_7);
+    	
+    	textField_8 = new JTextField();
+    	textField_8.setColumns(10);
+    	textField_8.setBounds(64, 52, 154, 20);
+    	selArqPanel.add(textField_8);
+    	
+    	JButton button_6 = new JButton("Browser");
+    	button_6.setForeground(Color.WHITE);
+    	button_6.setFont(new Font("Tahoma", Font.PLAIN, 10));
+    	button_6.setBackground(Color.BLACK);
+    	button_6.setBounds(216, 49, 78, 23);
+    	selArqPanel.add(button_6);
+    	
+    	JLabel label_8 = new JLabel("1\u00BA Arquivo");
+    	label_8.setBounds(0, 109, 59, 14);
+    	selArqPanel.add(label_8);
+    	
+    	JLabel label_9 = new JLabel("2\u00BA Arquivo");
+    	label_9.setBounds(0, 140, 59, 14);
+    	selArqPanel.add(label_9);
+    	
+    	JButton button_7 = new JButton("Browser");
+    	button_7.setForeground(Color.WHITE);
+    	button_7.setFont(new Font("Tahoma", Font.PLAIN, 10));
+    	button_7.setBackground(Color.BLACK);
+    	button_7.setBounds(216, 131, 78, 23);
+    	selArqPanel.add(button_7);
+    	
+    	textField_9 = new JTextField();
+    	textField_9.setColumns(10);
+    	textField_9.setBounds(64, 134, 154, 20);
+    	selArqPanel.add(textField_9);
+    	
     	JPanel saida = new JPanel();
+    	saida.setVisible(false);
     	saida.setBounds(318, 0, 468, 398);
     	saida.setBackground(Color.WHITE);
     	panelBB.add(saida);
     	saida.setLayout(null);
     	
     	JScrollPane scrollPane = new JScrollPane();
+    	scrollPane.setVisible(false);
     	scrollPane.setBounds(0, 0, 4, 4);
     	saida.add(scrollPane);
     	
     	JTextPane textPane = new JTextPane();
+    	textPane.setVisible(false);
     	textPane.setEditable(false);
     	textPane.setBackground(Color.WHITE);
     	textPane.setBounds(0, 0, 468, 398);
     	saida.add(textPane);
+    	tabelaDeSelecao.addTab("Banco do Brasil", null, panelBB, null);
     	tabelaDeSelecao.setBackgroundAt(0, Color.YELLOW);
     	
     	JPanel panelBradesco = new JPanel();
     	panelBradesco.setBackground(new Color(255, 0, 0));
     	tabelaDeSelecao.addTab("Bradesco", null, panelBradesco, null);
+    	panelBradesco.setLayout(null);
+    	
+    	JPanel panel_1 = new JPanel();
+    	panel_1.setLayout(null);
+    	panel_1.setOpaque(false);
+    	panel_1.setBackground(Color.ORANGE);
+    	panel_1.setBounds(10, 11, 294, 154);
+    	panelBradesco.add(panel_1);
+    	
+    	JLabel label_3 = new JLabel("Consignado do M\u00EAs Atual:");
+    	label_3.setBounds(0, 0, 125, 14);
+    	panel_1.add(label_3);
+    	
+    	JButton button_3 = new JButton("Browser");
+    	button_3.setForeground(Color.WHITE);
+    	button_3.setFont(new Font("Tahoma", Font.PLAIN, 10));
+    	button_3.setBackground(Color.BLACK);
+    	button_3.setBounds(216, 21, 78, 23);
+    	panel_1.add(button_3);
+    	
+    	textField_6 = new JTextField();
+    	textField_6.setColumns(10);
+    	textField_6.setBounds(64, 24, 154, 20);
+    	panel_1.add(textField_6);
+    	
+    	JLabel label_4 = new JLabel("Arquivo");
+    	label_4.setBounds(0, 30, 59, 14);
+    	panel_1.add(label_4);
+    	
+    	JButton button_4 = new JButton("Browser");
+    	button_4.setForeground(Color.WHITE);
+    	button_4.setFont(new Font("Tahoma", Font.PLAIN, 10));
+    	button_4.setBackground(Color.BLACK);
+    	button_4.setBounds(216, 100, 78, 23);
+    	panel_1.add(button_4);
+    	
+    	textField_7 = new JTextField();
+    	textField_7.setColumns(10);
+    	textField_7.setBounds(64, 103, 154, 20);
+    	panel_1.add(textField_7);
+    	
+    	JLabel label_5 = new JLabel("Arquivo");
+    	label_5.setBounds(0, 109, 59, 14);
+    	panel_1.add(label_5);
+    	
+    	JLabel label_6 = new JLabel("Consignado do M\u00EAs Anterior:");
+    	label_6.setBounds(0, 81, 166, 14);
+    	panel_1.add(label_6);
+    	
+    	JButton button_5 = new JButton("Browser");
+    	button_5.setForeground(Color.WHITE);
+    	button_5.setFont(new Font("Tahoma", Font.PLAIN, 10));
+    	button_5.setBackground(Color.BLACK);
+    	button_5.setBounds(216, 21, 78, 23);
+    	panel_1.add(button_5);
     	
     	
     	principal.setVisible(true);
