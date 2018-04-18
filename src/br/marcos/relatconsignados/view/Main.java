@@ -1,4 +1,4 @@
-package view;
+package br.marcos.relatconsignados.view;
 
 import java.awt.Color;
 import java.io.IOException;

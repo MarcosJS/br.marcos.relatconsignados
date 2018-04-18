@@ -1,6 +1,4 @@
-package consignado;
-
-import auxiliar.EntradaDados;
+package br.marcos.relatconsignados.model;
 
 public class ConsignadoBra extends Consignado{
 	private boolean consig;
@@ -15,39 +13,20 @@ public class ConsignadoBra extends Consignado{
 	String idConsignado, 
 	double valorParcela, 
 	double valorConsignado,
-	String parcelas,
+	int parcelaAtual,
+	int totalParcelas,
 	boolean consig,
 	String motivo,
 	String agCliente,
 	String ctCliente,
 	String cpf) {
-		super(nome, matricula, idConsignado, valorParcela, valorConsignado, parcelas);
+		super(nome, matricula, idConsignado, valorParcela, valorConsignado, parcelaAtual, totalParcelas);
 		this.setConsig(consig);
-		this.setMotivo(EntradaDados.removEspacoIniFim(motivo));
+		this.setMotivo(motivo);
 		this.setAgCliente(agCliente);
 		this.setCtCliente(ctCliente);
 		this.setCpf(cpf);
 	}
-	
-	public ConsignadoBra(
-	String nome, 
-	String matricula, 
-	String idConsignado, 
-	String valorParcela, 
-	String valorConsignado,
-	String parcelas,
-	String consig,
-	String motivo,
-	String agCliente,
-	String ctCliente,
-	String cpf) {
-		super(nome, matricula, idConsignado, valorParcela, valorConsignado, parcelas);
-		this.setConsig(EntradaDados.convertParaBoolean(consig));
-		this.setMotivo(EntradaDados.removEspacoIniFim(motivo));
-		this.setAgCliente(agCliente);
-		this.setCtCliente(ctCliente);
-		this.setCpf(cpf);
-			}
 	
 	public String getCpf() {
 		return cpf;

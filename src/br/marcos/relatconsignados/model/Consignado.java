@@ -1,4 +1,4 @@
-package consignado;
+package br.marcos.relatconsignados.model;
 
 public class Consignado {
 	private String nome;

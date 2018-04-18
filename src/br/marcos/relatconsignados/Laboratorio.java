@@ -1,17 +1,16 @@
 package br.marcos.relatconsignados;
 
-import consignacoes.ConsignacoesBB;
-import consignado.ConsignadoBra;
-import view.HighlightLineTextPane;
-
 import java.io.IOException;
 import java.awt.BorderLayout;
 import java.io.File;
 
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 
-import auxiliar.SaidaDados;
- 
+import br.marcos.relatconsignados.model.ConsignacoesBB;
+import br.marcos.relatconsignados.model.ConsignadoBra;
+import br.marcos.relatconsignados.view.HighlightLineTextPane;
+import br.marcos.relatconsignados.view.Relatorios;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -49,7 +48,7 @@ public final class Laboratorio {
         
         JFrame frame = new JFrame("Teste Frame ConsigDiff");
         //JTextPane text = new JTextPane(SaidaDados.obterRelatorioRenderizado(consi.getListConsignacoes(), "TODOS OS CONSIGNADOS"));
-        JTextPane text = new HighlightLineTextPane(SaidaDados.obterRelatorioRenderizado(consi.getListConsignacoes(), "TODOS OS CONSIGNADOS"));
+        JTextPane text = new HighlightLineTextPane(Relatorios.obterRelatorioRenderizado(consi.getListConsignacoes(), "TODOS OS CONSIGNADOS"));
         text.setEditable(false);
         JScrollPane scroll = new JScrollPane(text);
         frame.add(scroll, BorderLayout.CENTER);

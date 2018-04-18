@@ -1,8 +1,6 @@
-package consignacoes;
+package br.marcos.relatconsignados.model;
 
 import java.util.ArrayList;
-
-import consignado.Consignado;
 
 public class Consignacoes {
 	private int quantOperacoes;
@@ -17,59 +15,8 @@ public class Consignacoes {
 		this.setValorRepasse(0);
 	}
 	
-	public Consignacoes obterNovos(Consignacoes consignacoes) {
-		Consignacoes consigs = new Consignacoes();
-		for(Consignado thisC: this.getListConsignacoes()) {
-			boolean existe = false;
-			for(Consignado c: consignacoes.getListConsignacoes()) {
-				if(c.getIdConsignado().equals(thisC.getIdConsignado())) {
-					existe = true;
-				}
-			}
-			if(!existe) {
-				consigs.addConsignado(thisC);
-			}
-		}
-		return consigs;
-	}
-	
-	public Consignacoes obterExcluidos(Consignacoes consignacoes) {
-		Consignacoes consigs = new Consignacoes();
-		for(Consignado c: consignacoes.getListConsignacoes()) {
-			boolean existe = false;
-			for(Consignado thisC: this.getListConsignacoes()) {
-				if(c.getIdConsignado().equals(thisC.getIdConsignado())) {
-					existe = true;
-				}
-			}
-			if(!existe) {
-				consigs.addConsignado(c);
-			}
-		}
-		return consigs;
-	}
-	
-	public Consignacoes obterInalterados(Consignacoes consignacoes) {
-		Consignacoes consigsInalterados = new Consignacoes();
-		for(Consignado c: this.getListConsignacoes()) {
-			consigsInalterados.addConsignado(c);
-		}
-		Consignacoes consigsNovos = this.obterNovos(consignacoes);
-		Consignacoes consigsExcluidos = this.obterExcluidos(consignacoes);
-		
-		for(Consignado c: consigsNovos.getListConsignacoes()) {
-			consigsInalterados.removConsignado(c.getIdConsignado());
-		}
-		
-		for(Consignado c: consigsExcluidos.getListConsignacoes()) {
-			consigsInalterados.removConsignado(c.getIdConsignado());
-		}
-		
-		return consigsInalterados;
-	}
-	
 	public void addConsignado(Consignado c) {
-		if((consignados != null) && (!this.consultarConsignado(c.getIdConsignado()))) {
+		if((consignados != null) && (!this.existeConsignado(c.getIdConsignado()))) {
 			this.consignados.add(c);
 			this.setQuantOperacoes(this.getQuantOperacoes() + 1);
 			//System.out.println("adicionando: "+c.obterRestoParcelas()+" "+c.getNome()+" "+c.getMatricula()+" "+c.getIdConsignado()+" "+c.getValorParcela()+" "+c.getValorConsignado());
@@ -77,7 +24,7 @@ public class Consignacoes {
 	}
 	
 	public void removConsignado(String idConsignado) {
-		for(Consignado c: this.getListConsignacoes()) {
+		for(Consignado c: this.getVetorConsignacoes()) {
 			if(c.getIdConsignado().equals(idConsignado)) {
 				int i = this.consignados.indexOf(c);
 				this.consignados.remove(i);
@@ -88,7 +35,7 @@ public class Consignacoes {
 	
 	public Consignado obterConsignado(String idConsignado) {
 		Consignado consig = null;
-		for(Consignado c: this.getListConsignacoes()) {
+		for(Consignado c: this.getVetorConsignacoes()) {
 			if(c.getIdConsignado().equals(idConsignado)) {
 				consig = c;
 				break;
@@ -97,10 +44,10 @@ public class Consignacoes {
 		return consig;
 	}
 	
-	public boolean consultarConsignado(String idConsignado) {
+	public boolean existeConsignado(String idConsignado) {
 		boolean resultado = false;
 		if(consignados != null) {
-			for(Consignado c: this.getListConsignacoes()) {
+			for(Consignado c: this.getVetorConsignacoes()) {
 				if(c.getIdConsignado().equals(idConsignado)) {
 					resultado = true;
 					break;
@@ -110,7 +57,7 @@ public class Consignacoes {
 		return resultado;
 	}
 	
-	public Consignado[]  getListConsignacoes() {
+	public Consignado[]  getVetorConsignacoes() {
 		Consignado[] consigs = new Consignado[this.consignados.size()];
 		for(int i = 0; i < this.consignados.size(); i++) {
 			consigs[i] = this.consignados.get(i);
