@@ -16,13 +16,13 @@ public class HighlightLineTextPane extends JTextPane {
 
 	public HighlightLineTextPane() {
 	    setOpaque(false);
-	  }
-	  public HighlightLineTextPane(StyledDocument d) {
-			super(d);
-		    setOpaque(false);
-	  }
-	  @Override
-	  protected void paintComponent(Graphics g) {
+	}
+	public HighlightLineTextPane(StyledDocument d) {
+		super(d);
+		setOpaque(false);
+	}
+	@Override
+	protected void paintComponent(Graphics g) {
 	    g.setColor(getBackground());
 	    g.fillRect(0, 0, getWidth(), getHeight());
 	    try {
@@ -37,8 +37,8 @@ public class HighlightLineTextPane extends JTextPane {
 	    super.paintComponent(g);
 	  }
 
-	  @Override
-	  public void repaint(long tm, int x, int y, int width, int height) {
+	@Override
+	public void repaint(long tm, int x, int y, int width, int height) {
 	    super.repaint(tm, 0, 0, getWidth(), getHeight());
-	  }
 	}
+}

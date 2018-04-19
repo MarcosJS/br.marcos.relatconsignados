@@ -19,6 +19,11 @@ public class ControlDiff {
 	private DiffConsignacoes bancoBrasil;
 	private DiffConsignacoes bradesco;
 	
+	public ControlDiff() {
+		this.bancoBrasil = new DiffConsignacoes();
+		this.bradesco = new DiffConsignacoes();
+	}
+	
 	public void carregarConsignacoesBB(File[] arquivo, int[] inicioApos, int[] fimAntes) throws InvalidPasswordException, IOException {
 		ConsignadoBB[][] vetorConsignados1 = {this.convertArqConsigBB(arquivo[0], inicioApos[0], fimAntes[0]), this.convertArqConsigBB(arquivo[1], inicioApos[1], fimAntes[1])};
 		ConsignadoBB[][] vetorConsignados2 = {this.convertArqConsigBB(arquivo[2], inicioApos[2], fimAntes[2]), this.convertArqConsigBB(arquivo[3], inicioApos[3], fimAntes[3])};
@@ -144,13 +149,13 @@ public class ControlDiff {
 		return string;
 	}
 	
-	public static String formatParaConversDecimal(String string) {
+	public String formatParaConversDecimal(String string) {
 		string  = string.replace(".", "");
 		string = string.replace(",", ".");
 		return removEspacoIniFim(string);
 	}
 	
-	public static boolean convertParaBoolean(String string) {
+	private boolean convertParaBoolean(String string) {
 		string = removEspacoIniFim(string);
 		boolean resultado = false;
 		if(string.equals("Sim")) {
@@ -159,13 +164,13 @@ public class ControlDiff {
 		return resultado;
 	}
 	
-	public static String capturarParcelaAtual(String string) {
+	public String capturarParcelaAtual(String string) {
 		string = removEspacoIniFim(string);
 		return string.split("/")[0];
 		
 	}
 	
-	public static String capturarTotalParcelas(String string) {
+	public String capturarTotalParcelas(String string) {
 		string = removEspacoIniFim(string);
 		return string.split("/")[1];
 		
