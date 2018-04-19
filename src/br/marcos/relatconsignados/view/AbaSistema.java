@@ -1,6 +1,8 @@
 package br.marcos.relatconsignados.view;
 
 import java.awt.Color;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -25,10 +27,22 @@ public class AbaSistema extends JPanel {
 		this.add(saida);
 		saida.setLayout(null);
 		
+		JPanel panel = new JPanel();
+		panel.setOpaque(false);
+		panel.setBounds(723, 5, 73, 33);
+		saida.add(panel);
+		
+		JButton bSalvar = new JButton("Salvar");
+		panel.add(bSalvar);
+		bSalvar.setToolTipText("Salva documento em formato pdf");
+		bSalvar.setBackground(new Color(100, 149, 237));
+		bSalvar.setForeground(Color.WHITE);
+		
 		this.scrollPane = new JScrollPane();
 		scrollPane.setBackground(Color.WHITE);
 		scrollPane.setBounds(0, 0, 800, 398);
 		saida.add(scrollPane);
+		
 }
 	
 	public void renderizar(StyledDocument documento) {

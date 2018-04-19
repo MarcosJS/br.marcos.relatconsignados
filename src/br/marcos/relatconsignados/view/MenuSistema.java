@@ -137,10 +137,10 @@ public class MenuSistema extends JPanel {
     	btnInalterado.setBounds(66, 362, 182, 23);
     	this.add(btnInalterado);
     	this.add(selArq);
+   
 	}
 	
 	public void setSelArq(SelArqPanel selArq) {
 		this.selArq = selArq;
 	}
-	
 }

@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import br.marcos.relatconsignados.control.ControlDiff;
+import javax.swing.JButton;
 
 public class TelaPrincipal extends JFrame {
 	/**
@@ -21,7 +22,7 @@ public class TelaPrincipal extends JFrame {
 		ControlDiff cD = new ControlDiff();
 		this.getContentPane().setBackground(Color.LIGHT_GRAY);
     	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	this.setSize(800, 450);
+    	this.setSize(1136, 450);
     	this.setTitle("Consig Diff");
     	this.getContentPane().setLayout(new CardLayout(0, 0));
     	
@@ -43,11 +44,17 @@ public class TelaPrincipal extends JFrame {
     	abaBB.add(menuBB);
     	abaBra.add(menuBra);
     	abas.addTab("Banco do Brasil", null, abaBB, null);
+    	
+    	JButton bSalvar = new JButton("Salvar");
+    	bSalvar.setToolTipText("Salva documento em formato pdf");
+    	bSalvar.setBackground(new Color(100, 149, 237));
+    	bSalvar.setForeground(Color.WHITE);
+    	bSalvar.setBounds(690, 0, 89, 23);
+    	abaBB.add(bSalvar);
     	abas.addTab("Bradesco", null, abaBra, null);
 	}
 	
 	public void renderizar() {
 		this.setVisible(true);
 	}
-
 }
