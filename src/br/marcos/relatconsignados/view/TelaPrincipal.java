@@ -3,12 +3,14 @@ package br.marcos.relatconsignados.view;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.JButton;
 
 import br.marcos.relatconsignados.control.ControlDiff;
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class TelaPrincipal extends JFrame {
 	/**
@@ -18,6 +20,7 @@ public class TelaPrincipal extends JFrame {
 	
 	public TelaPrincipal() {
 		super();
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/br/marcos/relatconsignados/images/dif48x48.png")));
 		
 		ControlDiff cD = new ControlDiff();
 		this.getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -43,7 +46,7 @@ public class TelaPrincipal extends JFrame {
     	
     	abaBB.add(menuBB);
     	abaBra.add(menuBra);
-    	abas.addTab("Banco do Brasil", null, abaBB, null);
+    	abas.addTab("Banco do Brasil", new ImageIcon(TelaPrincipal.class.getResource("/br/marcos/relatconsignados/images/bb16x16.png")), abaBB, null);
     	
     	JButton bSalvar = new JButton("Salvar");
     	bSalvar.setToolTipText("Salva documento em formato pdf");
@@ -51,7 +54,7 @@ public class TelaPrincipal extends JFrame {
     	bSalvar.setForeground(Color.WHITE);
     	bSalvar.setBounds(690, 0, 89, 23);
     	abaBB.add(bSalvar);
-    	abas.addTab("Bradesco", null, abaBra, null);
+    	abas.addTab("Bradesco", new ImageIcon(TelaPrincipal.class.getResource("/br/marcos/relatconsignados/images/bra16x16.png")), abaBra, null);
 	}
 	
 	public void renderizar() {
