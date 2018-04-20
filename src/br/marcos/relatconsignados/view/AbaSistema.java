@@ -3,19 +3,32 @@ package br.marcos.relatconsignados.view;
 import java.awt.Color;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.text.StyledDocument;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.text.BadLocationException;
+import br.marcos.relatconsignados.control.ControlDiff;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AbaSistema extends JPanel {
+	public static enum Relatorio {
+		ATUAIS, ANTERIORES, NOVOS, EXCLUIDOS, INALTERADOS;
+	}
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollPane;
+	private ControlDiff cD;
+	private String relExibido[] = null;
+	private String cabecalho = null;
+	private String nomeArq = null;
 	
-	public AbaSistema() {
+	public AbaSistema(ControlDiff cD) {
 		super();
 			
 		this.setBackground(Color.WHITE);
@@ -29,10 +42,30 @@ public class AbaSistema extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setOpaque(false);
-		panel.setBounds(723, 5, 73, 33);
+		panel.setBounds(703, 5, 73, 33);
 		saida.add(panel);
 		
 		JButton bSalvar = new JButton("Salvar");
+		bSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(relExibido != null) {
+					JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+					jfc.setDialogTitle("Escolha um local para salvar seu arquivo: ");
+					jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+					int returnValue = jfc.showSaveDialog(null);
+					if (returnValue == JFileChooser.APPROVE_OPTION) {
+						if (jfc.getSelectedFile().isDirectory()) {
+							String local = jfc.getSelectedFile().getAbsolutePath();
+							local = local.concat("\\");
+							salvarRelExibido(local);
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Não há relatórios para serem salvos!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
 		panel.add(bSalvar);
 		bSalvar.setToolTipText("Salva documento em formato pdf");
 		bSalvar.setBackground(new Color(100, 149, 237));
@@ -42,13 +75,57 @@ public class AbaSistema extends JPanel {
 		scrollPane.setBackground(Color.WHITE);
 		scrollPane.setBounds(0, 0, 800, 398);
 		saida.add(scrollPane);
-		
+		this.setcD(cD);
 }
 	
-	public void renderizar(StyledDocument documento) {
-		JTextPane textPane = new JTextPane(documento);
-		textPane.setEditable(false);
-    	scrollPane.setViewportView(textPane);
+	public void renderizar(Relatorio rel) {
+		switch(rel) {
+		case ATUAIS:
+			this.relExibido = cD.obterListaConsignacoes(ControlDiff.BANCO_BRASIL, ControlDiff.CONSIG_ATUAL);
+			this.cabecalho = "CONSIGNADOS DO MÊS ATUAL";
+			break;
+		case ANTERIORES:
+			this.relExibido = cD.obterListaConsignacoes(ControlDiff.BANCO_BRASIL, ControlDiff.CONSIG_ANTERIOR);
+			this.cabecalho = "CONSIGNADOS DO MÊS ANTERIOR";
+			break;
+		case NOVOS:
+			this.relExibido = cD.obterListaNovos(ControlDiff.BANCO_BRASIL);
+			this.cabecalho = "NOVOS CONSIGNADOS";
+			break;
+		case EXCLUIDOS:
+			this.relExibido = cD.obterListaExcluidos(ControlDiff.BANCO_BRASIL);
+			this.cabecalho = "CONSIGNADOS EXCLUÍDOS";
+			break;
+		case INALTERADOS:
+			this.relExibido = cD.obterListaInalterados(ControlDiff.BANCO_BRASIL);
+			this.cabecalho = "CONSIGNADOS INALTERADOS";
+			break;
+		default:
+			break;
+		}
+		JTextPane textPane;
+		try {
+			textPane = new JTextPane(Relatorios.obterRelatorioRenderizado(this.relExibido, cabecalho));
+			textPane.setEditable(false);
+			this.scrollPane.setViewportView(textPane);
+		} catch (BadLocationException e) {
+			JOptionPane.showMessageDialog(null, "Falha na renderização dos consignados!", "Erro", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+		this.nomeArq = rel.toString();
+	}
 	
+	private void salvarRelExibido(String local) {
+		try {
+			Relatorios.gerarArquivo(this.relExibido, this.cabecalho, local+this.nomeArq);
+			JOptionPane.showMessageDialog(null, "O relatório foi salvo.", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha no salvamento do relatório!", "Erro", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+	
+	public void setcD(ControlDiff cD) {
+		this.cD = cD;
 	}
 }

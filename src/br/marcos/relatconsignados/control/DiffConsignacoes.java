@@ -12,8 +12,8 @@ public class DiffConsignacoes {
 	
 	public DiffConsignacoes() {
 		this.consignados = new Consignacoes[2];
-		this.consignados[0] = new Consignacoes();
-		this.consignados[1] = new Consignacoes();
+		this.consignados[DiffConsignacoes.CONSIG_ATUAL] = new Consignacoes();
+		this.consignados[DiffConsignacoes.CONSIG_ANTERIOR] = new Consignacoes();
 	}
 	
 	public void carregarConsignacoesBB(ConsignadoBB[] consignados1, ConsignadoBB[] consignados2) {

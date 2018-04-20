@@ -2,7 +2,6 @@ package br.marcos.relatconsignados.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -36,7 +35,7 @@ public class SelArqPanelBB extends SelArqPanel{
 		this.setLayout(null);
 		
 		JLabel label = new JLabel("Consignado do M\u00EAs Atual:");
-		label.setBounds(0, 0, 125, 14);
+		label.setBounds(0, 0, 130, 14);
 		this.add(label);
 		
 		JTextField campo1 = new JTextField();
@@ -59,7 +58,7 @@ public class SelArqPanelBB extends SelArqPanel{
 		
 		button.setForeground(Color.WHITE);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		button.setBackground(SystemColor.desktop);
+		button.setBackground(new Color(100, 149, 237));
 		button.setBounds(216, 16, 78, 23);
 		this.add(button);
 		
@@ -83,7 +82,7 @@ public class SelArqPanelBB extends SelArqPanel{
 		this.add(campo3);
 		button_1.setForeground(Color.WHITE);
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		button_1.setBackground(SystemColor.desktop);
+		button_1.setBackground(new Color(100, 149, 237));
 		button_1.setBounds(216, 100, 78, 23);
 		this.add(button_1);
 		
@@ -118,7 +117,7 @@ public class SelArqPanelBB extends SelArqPanel{
 		});
 		button_6.setForeground(Color.WHITE);
 		button_6.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		button_6.setBackground(SystemColor.desktop);
+		button_6.setBackground(new Color(100, 149, 237));
 		button_6.setBounds(216, 49, 78, 23);
 		this.add(button_6);
 		
@@ -150,7 +149,7 @@ public class SelArqPanelBB extends SelArqPanel{
 		this.add(campo4);
 		button_7.setForeground(Color.WHITE);
 		button_7.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		button_7.setBackground(SystemColor.desktop);
+		button_7.setBackground(new Color(100, 149, 237));
 		button_7.setBounds(216, 131, 78, 23);
 		this.add(button_7);
 		

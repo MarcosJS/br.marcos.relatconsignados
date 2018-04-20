@@ -6,8 +6,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.text.BadLocationException;
-
 import br.marcos.relatconsignados.control.ControlDiff;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,11 +15,12 @@ public class MenuSistema extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private SelArqPanel selArq;
+	//private SelArqPanel selArq;
+	private boolean estaCarregado = false;
 	
 	public MenuSistema(ControlDiff cD, Color corFundoBotoes, Color corFonteBotoes, SelArqPanel selArq, AbaSistema saida) {
 		super();
-		this.setSelArq(selArq);
+		//this.setSelArq(selArq);
 		this.setForeground(corFonteBotoes);
     	this.setBounds(0, 0, 319, 398);
     	this.setBackground(new Color(255, 255, 102));
@@ -35,7 +34,8 @@ public class MenuSistema extends JPanel {
     	JButton btnNewButton = new JButton("CARREGAR");
     	btnNewButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			if(selArq.carregarArquivos()) {
+    			setEstaCarregado(selArq.carregarArquivos());
+    			if(getEstaCarregado()) {
     				JOptionPane.showMessageDialog(null, "Os arquivos foram carregados!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
     			}
     		}
@@ -47,14 +47,13 @@ public class MenuSistema extends JPanel {
     	btnNewButton.setBounds(10, 176, 91, 23);
     	this.add(btnNewButton);
     	
-    	JButton btnMostrarAtual = new JButton("MOSTRAR ATUAL");
+    	JButton btnMostrarAtual = new JButton("M\u00CAS ATUAL");
     	btnMostrarAtual.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			try {
-					saida.renderizar(Relatorios.obterRelatorioRenderizado(cD.obterListaConsignacoes(ControlDiff.BANCO_BRASIL, ControlDiff.CONSIG_ATUAL), "CONSINADOS ATUAIS"));
-				} catch (BadLocationException e1) {
-					JOptionPane.showMessageDialog(null, "Erro na renderização do relatório!", "Erro", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
+    			if (getEstaCarregado()) {
+					saida.renderizar(AbaSistema.Relatorio.ATUAIS);
+				} else {
+					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
     		}
     	});
@@ -65,14 +64,13 @@ public class MenuSistema extends JPanel {
     	btnMostrarAtual.setBounds(66, 226, 182, 23);
     	this.add(btnMostrarAtual);
     	
-    	JButton btnMostrarMsAnterior = new JButton("MOSTRAR M\u00CAS ANTERIOR");
+    	JButton btnMostrarMsAnterior = new JButton("M\u00CAS ANTERIOR");
     	btnMostrarMsAnterior.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			try {
-					saida.renderizar(Relatorios.obterRelatorioRenderizado(cD.obterListaConsignacoes(ControlDiff.BANCO_BRASIL, ControlDiff.CONSIG_ANTERIOR), "CONSIGNADOS ANTERIORES"));
-				} catch (BadLocationException e1) {
-					JOptionPane.showMessageDialog(null, "Erro na renderização do relatório!", "Erro", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
+    			if (getEstaCarregado()) {
+					saida.renderizar(AbaSistema.Relatorio.ANTERIORES);
+				} else {
+					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
     		}
     	});
@@ -86,11 +84,10 @@ public class MenuSistema extends JPanel {
     	JButton btnNovos = new JButton("NOVOS");
     	btnNovos.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			try {
-					saida.renderizar(Relatorios.obterRelatorioRenderizado(cD.obterListaNovos(ControlDiff.BANCO_BRASIL), "NOVOS CONSIGNADOS"));
-				} catch (BadLocationException e1) {
-					JOptionPane.showMessageDialog(null, "Erro na renderização do relatório!", "Erro", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
+    			if (getEstaCarregado()) {
+					saida.renderizar(AbaSistema.Relatorio.NOVOS);
+				} else {
+					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
     		}
     	});
@@ -104,11 +101,10 @@ public class MenuSistema extends JPanel {
     	JButton btnExcludos = new JButton("EXCLU\u00CDDOS");
     	btnExcludos.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			try {
-					saida.renderizar(Relatorios.obterRelatorioRenderizado(cD.obterListaExcluidos(ControlDiff.BANCO_BRASIL), "CONSIGNADOS EXCLUÍDOS"));
-				} catch (BadLocationException e1) {
-					JOptionPane.showMessageDialog(null, "Erro na renderização do relatório!", "Erro", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
+    			if (getEstaCarregado()) {
+					saida.renderizar(AbaSistema.Relatorio.EXCLUIDOS);
+				} else {
+					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
     		}
     	});
@@ -122,11 +118,10 @@ public class MenuSistema extends JPanel {
     	JButton btnInalterado = new JButton("INALTERADOS");
     	btnInalterado.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			try {
-					saida.renderizar(Relatorios.obterRelatorioRenderizado(cD.obterListaInalterados(ControlDiff.BANCO_BRASIL), "CONSIGNADOS INALTERADOS"));
-				} catch (BadLocationException e1) {
-					JOptionPane.showMessageDialog(null, "Erro na renderização do relatório!", "Erro", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
+    			if (getEstaCarregado()) {
+					saida.renderizar(AbaSistema.Relatorio.INALTERADOS);
+				} else {
+					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
     		}
     	});
@@ -137,10 +132,17 @@ public class MenuSistema extends JPanel {
     	btnInalterado.setBounds(66, 362, 182, 23);
     	this.add(btnInalterado);
     	this.add(selArq);
-   
 	}
 	
-	public void setSelArq(SelArqPanel selArq) {
-		this.selArq = selArq;
+	public boolean getEstaCarregado() {
+		return this.estaCarregado;
 	}
+	
+	public void setEstaCarregado(boolean estaCarregado) {
+		this.estaCarregado = estaCarregado;
+	}
+	
+	/*public void setSelArq(SelArqPanel selArq) {
+		this.selArq = selArq;
+	}*/
 }

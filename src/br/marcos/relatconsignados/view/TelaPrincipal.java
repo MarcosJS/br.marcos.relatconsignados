@@ -33,10 +33,10 @@ public class TelaPrincipal extends JFrame {
     	SelArqPanelBB arqBB = new SelArqPanelBB(cD);
     	SelArqPanelBra arqBra = new SelArqPanelBra(cD);
     	
-    	AbaSistema abaBB = new AbaSistema();
-    	AbaSistema abaBra = new AbaSistema();
+    	AbaSistema abaBB = new AbaSistema(cD);
+    	AbaSistema abaBra = new AbaSistema(cD);
     	
-    	MenuSistema menuBB = new MenuSistema(cD, SystemColor.desktop, SystemColor.WHITE, arqBB, abaBB);
+    	MenuSistema menuBB = new MenuSistema(cD, new Color(100, 149, 237), SystemColor.WHITE, arqBB, abaBB);
     	MenuSistema menuBra = new MenuSistema(cD, SystemColor.RED, SystemColor.WHITE, arqBra, abaBra);
     	
     	menuBra.setBackground(SystemColor.WHITE);  	

@@ -23,30 +23,91 @@ public class Relatorios {
 	}
 	
 	public static void gerarArquivo(String[] relatorio, String cabecalho, String nomeArquivo) throws IOException {
+		int consigPPag = 59;
+		int linhas = relatorio.length;
+		System.out.println(linhas);
+		int paginas = (linhas/consigPPag) + 1;
+		System.out.println(paginas);
 		PDDocument doc = new PDDocument();
+        PDPage[] page = new PDPage[paginas];
+        PDPageContentStream[] contents = new PDPageContentStream[paginas];
+        PDFont font = PDType1Font.COURIER;
+        
+        for(int i = 0; i < paginas; i++) {
+        	page[i] = new PDPage();
+        	doc.addPage(page[i]);
+        	contents[i] = new PDPageContentStream(doc, page[i]);
+        }
+        
+        for(int i = 0; i < paginas; i++) {
+       		contents[i].beginText();
+            contents[i].setFont(font, 10);
+            contents[i].setLeading(12.5f);
+            contents[i].newLineAtOffset(10, 775);
+            
+            String divisorNumPag = "------------------------------------------------------------------------------------------------["+String.valueOf(i + 1)+"]"; 
+           
+    		contents[i].showText(cabecalho);
+           	contents[i].newLine();    		
+    		contents[i].showText(divisorNumPag);
+           	contents[i].newLine();
+           	contents[i].newLineAtOffset(30, 1);
+       	}
+       	
+        int pag = 0;
+        //int c = 1;
+        
+		for(int i = 1; i <= linhas; i++) {
+			if(i % consigPPag == 0) {
+				pag++;
+				//System.out.println("pulou");
+				//c = 1;
+			}
+        	//System.out.println(c+" - "+linha);
+			System.out.println(pag+" | "+i);
+			System.out.println(relatorio[i - 1]);
+			contents[pag].showText(relatorio[i - 1]);
+		    contents[pag].newLine();
+		    //c++;
+        }
+		
+		for(int i = 0; i < paginas; i++) {
+			contents[i].endText();
+			contents[i].close();
+		}
+		
+        doc.save(nomeArquivo+".pdf");
+        doc.close();
+		
+		/*PDDocument doc = new PDDocument();
         PDPage page = new PDPage();
  
         doc.addPage(page);
         
-        PDFont font = PDType1Font.COURIER;
         PDPageContentStream contents = new PDPageContentStream(doc, page);
-        
+               
         contents.beginText();
+        
+        PDFont font = PDType1Font.COURIER;
         contents.setFont(font, 10);
-        contents.setLeading(14.5f);
+        contents.setLeading(12.5f);
         contents.newLineAtOffset(10, 775);
+        
         contents.showText(cabecalho);
        	contents.newLine();
-       	contents.newLineAtOffset(30, 775);
+       	contents.newLine();
+       	contents.newLineAtOffset(30, 1);
         
         for(String linha: relatorio) {
+        	System.out.println(linha);
 			contents.showText(linha);
 		    contents.newLine();
         }
         contents.endText();
         contents.close();
-        doc.save(nomeArquivo);
-        doc.close();   
+        System.out.println(relatorio.length);
+        doc.save(nomeArquivo+".pdf");
+        doc.close();*/
 	}
 	
 	public static StyledDocument obterRelatorioRenderizado(String[] relatorio, String cabecalho) throws BadLocationException {
@@ -67,7 +128,6 @@ public class Relatorios {
 	    StyleConstants.setFontFamily(left, "Consolas");
 	    
 	    for(String linha: relatorio) {
-			System.out.println(linha);
 			offset = documento.getLength();
 			documento.insertString(offset, "\n"+linha, left);
 		}
