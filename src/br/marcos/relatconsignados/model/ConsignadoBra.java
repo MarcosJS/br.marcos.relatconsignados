@@ -28,6 +28,22 @@ public class ConsignadoBra extends Consignado{
 		this.setCpf(cpf);
 	}
 	
+	@Override
+	public String toStringSimple() {
+		String motivo = String.format("%1$20s", String.valueOf(this.getMotivo()));
+		return "["+super.toStringSimple()+" "+this.getCpf()+" "+convertParaString(this.getConsig())+" "+motivo+"]";
+	}
+
+	private String convertParaString(boolean b) {
+		String resultado = null;
+		if(b) {
+			resultado = "sim";
+		} else if(!b){
+			resultado = "não";
+		}
+		return resultado;
+	}
+
 	public String getCpf() {
 		return cpf;
 	}
@@ -66,5 +82,5 @@ public class ConsignadoBra extends Consignado{
 
 	private void setCtCliente(String ctCliente) {
 		this.ctCliente = ctCliente;
-	}
+	}	
 }

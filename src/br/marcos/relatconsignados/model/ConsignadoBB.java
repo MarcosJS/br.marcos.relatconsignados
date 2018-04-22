@@ -27,6 +27,11 @@ public class ConsignadoBB extends Consignado{
 		return resto;
 	}
 	
+	@Override
+	public String toStringSimple() {
+		return "["+super.toStringSimple()+" "+this.getCpf()+"]";
+	}
+
 	public int getSeqOperacao() {
 		return seqOperacao;
 	}

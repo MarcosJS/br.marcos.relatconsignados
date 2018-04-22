@@ -23,7 +23,7 @@ public class TelaPrincipal extends JFrame {
 		this.getContentPane().setBackground(Color.LIGHT_GRAY);
     	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	this.setSize(1136, 450);
-    	this.setTitle("Consig Diff");
+    	this.setTitle("ConsigDiff");
     	this.getContentPane().setLayout(new CardLayout(0, 0));
     	
     	JTabbedPane abas = new JTabbedPane(JTabbedPane.TOP);
@@ -33,8 +33,8 @@ public class TelaPrincipal extends JFrame {
     	SelArqPanelBB arqBB = new SelArqPanelBB(cD);
     	SelArqPanelBra arqBra = new SelArqPanelBra(cD);
     	
-    	AbaSistema abaBB = new AbaSistema(cD);
-    	AbaSistema abaBra = new AbaSistema(cD);
+    	AbaSistema abaBB = new AbaSistema(cD, ControlDiff.BANCO_BRASIL, new Color(230, 230, 255), new Color(150,255, 150));
+    	AbaSistema abaBra = new AbaSistema(cD, ControlDiff.BRADESCO, new Color(255, 230, 230), new Color(150, 150, 255));
     	
     	MenuSistema menuBB = new MenuSistema(cD, new Color(100, 149, 237), SystemColor.WHITE, arqBB, abaBB);
     	MenuSistema menuBra = new MenuSistema(cD, SystemColor.RED, SystemColor.WHITE, arqBra, abaBra);

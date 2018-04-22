@@ -10,6 +10,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 import br.marcos.relatconsignados.model.Consignado;
 import br.marcos.relatconsignados.model.ConsignadoBB;
+import br.marcos.relatconsignados.model.ConsignadoBra;
 
 public class ControlDiff {
 	public static int CONSIG_ATUAL = DiffConsignacoes.CONSIG_ATUAL;
@@ -30,14 +31,26 @@ public class ControlDiff {
 		this.bancoBrasil.carregarConsignacoesBB(this.concatVetores(vetorConsignados1), this.concatVetores(vetorConsignados2));
 	}
 	
+	public void carregarConsignacoesBra(File[] arquivo, int[] inicioAposPag1, int[] inicioApos, int[] fimAntes) throws InvalidPasswordException, IOException {
+		ConsignadoBra[] vetorConsignados1 = this.convertArqConsigBra(arquivo[0], inicioAposPag1[0], inicioApos[0], fimAntes[0]);
+		ConsignadoBra[] vetorConsignados2 = this.convertArqConsigBra(arquivo[1], inicioAposPag1[1], inicioApos[1], fimAntes[1]);
+		this.bradesco.carregarConsignacoesBra(vetorConsignados1, vetorConsignados2);
+	}
+	
 	public String[] obterListaConsignacoes(int tipoConsignado, int ordem) {
 		String[] consignacoes = null;
 		if(tipoConsignado == ControlDiff.BANCO_BRASIL) {
 			consignacoes = new String[bancoBrasil.getQuantOperacoes(ordem)];
 			int i = 0;
 			for(Consignado cB: this.bancoBrasil.obterListConsignacoes(ordem)) {
-				String linha = new String();
-				consignacoes[i] = linha.concat(String.format("%1$-30s", cB.getNome())+" "+String.format("%1$11s", cB.getMatricula())+" "+cB.getIdConsignado()+" "+((ConsignadoBB) cB).getSeqOperacao()+" "+((ConsignadoBB) cB).getCpf()+" "+String.format("%1$10s", String.valueOf(cB.getValorParcela()))+" "+String.format("%1$10s", String.valueOf(cB.getValorConsignado())));
+				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
+				i++;
+			}
+		} else if(tipoConsignado == ControlDiff.BRADESCO) {
+			consignacoes = new String[bradesco.getQuantOperacoes(ordem)];
+			int i = 0;
+			for(Consignado cB: this.bradesco.obterListConsignacoes(ordem)) {
+				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
 				i++;
 			}
 		}
@@ -51,8 +64,15 @@ public class ControlDiff {
 			consignacoes = new String[novosVetor.length];
 			int i = 0;
 			for(Consignado cB: novosVetor) {
-				String linha = new String();
-				consignacoes[i] = linha.concat(String.format("%1$-30s", cB.getNome())+" "+String.format("%1$11s", cB.getMatricula())+" "+cB.getIdConsignado()+" "+((ConsignadoBB) cB).getSeqOperacao()+" "+((ConsignadoBB) cB).getCpf()+" "+String.format("%1$10s", String.valueOf(cB.getValorParcela()))+" "+String.format("%1$10s", String.valueOf(cB.getValorConsignado())));
+				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
+				i++;
+			}
+		} else if(tipoConsignado == ControlDiff.BRADESCO) {
+			Consignado[] novosVetor = this.bradesco.obterNovosConsignados();
+			consignacoes = new String[novosVetor.length];
+			int i = 0;
+			for(Consignado cB: novosVetor) {
+				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
 				i++;
 			}
 		}
@@ -66,8 +86,15 @@ public class ControlDiff {
 			consignacoes = new String[novosVetor.length];
 			int i = 0;
 			for(Consignado cB: novosVetor) {
-				String linha = new String();
-				consignacoes[i] = linha.concat(String.format("%1$-30s", cB.getNome())+" "+String.format("%1$11s", cB.getMatricula())+" "+cB.getIdConsignado()+" "+((ConsignadoBB) cB).getSeqOperacao()+" "+((ConsignadoBB) cB).getCpf()+" "+String.format("%1$10s", String.valueOf(cB.getValorParcela()))+" "+String.format("%1$10s", String.valueOf(cB.getValorConsignado())));
+				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
+				i++;
+			}
+		} else if(tipoConsignado == ControlDiff.BRADESCO) {
+			Consignado[] novosVetor = this.bradesco.obterConsignadosExcluidos();
+			consignacoes = new String[novosVetor.length];
+			int i = 0;
+			for(Consignado cB: novosVetor) {
+				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
 				i++;
 			}
 		}
@@ -81,15 +108,21 @@ public class ControlDiff {
 			consignacoes = new String[novosVetor.length];
 			int i = 0;
 			for(Consignado cB: novosVetor) {
-				String linha = new String();
-				consignacoes[i] = linha.concat(String.format("%1$-30s", cB.getNome())+" "+String.format("%1$11s", cB.getMatricula())+" "+cB.getIdConsignado()+" "+((ConsignadoBB) cB).getSeqOperacao()+" "+((ConsignadoBB) cB).getCpf()+" "+String.format("%1$10s", String.valueOf(cB.getValorParcela()))+" "+String.format("%1$10s", String.valueOf(cB.getValorConsignado())));
+				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
+				i++;
+			}
+		} else if(tipoConsignado == ControlDiff.BRADESCO) {
+			Consignado[] novosVetor = this.bradesco.obterInalterados();
+			consignacoes = new String[novosVetor.length];
+			int i = 0;
+			for(Consignado cB: novosVetor) {
+				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
 				i++;
 			}
 		}
 		return consignacoes;
 	}
 	
-	//Funções auxiliares
 	private ConsignadoBB[] convertArqConsigBB(File arquivo, int inicioApos, int fimAntes) throws InvalidPasswordException, IOException {
 		PDDocument document = null;
         document = PDDocument.load(arquivo);
@@ -124,9 +157,96 @@ public class ControlDiff {
 	    
 	    document.close();
 	    ConsignadoBB[] consignadosV = new ConsignadoBB[consignadosA.size()];
-	    consignadosV = consignadosA.toArray(consignadosV);
-	    return consignadosV;
+	    return consignadosA.toArray(consignadosV);
 	}
+	
+	private ConsignadoBra[] convertArqConsigBra(File arquivo, int inicioAposPag1, int inicioApos, int fimAntes) throws IOException {
+        PDDocument document = PDDocument.load(arquivo);
+        PDFTextStripper stripper = new PDFTextStripper();
+        int inicio = inicioAposPag1;
+        ArrayList<ConsignadoBra> consignadosA = new ArrayList<ConsignadoBra>();
+            
+        for(int p = 0; p < document.getNumberOfPages(); p++) {
+        	stripper.setStartPage(p + 1);
+           	stripper.setEndPage(p + 1);
+           	String pdfTextPage  = stripper.getText(document).toString();
+           	String pdfLinhas[] = pdfTextPage.split("\n");
+            	
+           	for(int i = 0; i < pdfLinhas.length - fimAntes; i++) {
+               	String pdfDados[] = pdfLinhas[i].split(" ");
+               	
+               	if(p > 0) {
+               		inicio = inicioApos;
+               	}
+           		
+               	if(i >= inicio) {
+               		String ctCliente = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 1]);
+               		String agCliente = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 2]);
+               		String parcelas = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 4]);
+               		String cpf = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 5]);
+    	           	String contrato = (pdfDados[pdfDados.length - 6]);
+    	           	String motivo = "";
+    	           	double valorConsignado = 0;
+    	           	boolean consignacao = false;
+    	           	double valorParcela = 0;
+    	           	String nome = "";
+    	           	String matricula = "";
+    	            	
+    	           	//tramento caso nao haja consignacao
+    	           	if(pdfLinhas[i].contains("Não")) {
+    	           		String pdfDadosE[] = pdfLinhas[i].split(" Não ");
+    	           		/*Trantamento da possibilidade da linha do consignado ter mais
+    	           		 *substrings iguais a "não" exibindo a linha e encerrando o programa.
+    	           		 */
+    	           		try {
+    	           			String contendoMotivo[] = pdfDadosE[1].split(" ");
+    	           			for(int j = 2; j < (contendoMotivo.length - 6); j++) {
+    			            	motivo = ControlDiff.removEspacoIniFim(motivo.concat(" "+contendoMotivo[j]));
+    			            }
+    	            		
+    	            		valorConsignado = Double.parseDouble(formatParaConversDecimal(contendoMotivo[1]));
+    		            	consignacao = convertParaBoolean("Não");
+    		            	String semMotivo[] = pdfDadosE[0].split(" ");
+    		            	valorParcela = Double.parseDouble(formatParaConversDecimal(semMotivo[semMotivo.length - 1]));
+    		            	
+    		            	for(int j = 3; j < (semMotivo.length - 2); j++) {
+    		            		nome = ControlDiff.removEspacoIniFim(nome.concat(" "+semMotivo[j]));
+    		            	}
+    		            	matricula = ControlDiff.removEspacoIniFim(semMotivo[2]);
+    	           		} catch(Exception e) {
+    	           			System.out.println(pdfDadosE);
+    	           			document.close();
+    	           			System.exit(0);
+    	           		}
+    	            		
+    	           	} else {
+    	           		//Continuação do fluxo caso haja consignacao
+    	           		valorConsignado = Double.parseDouble(formatParaConversDecimal(pdfDados[pdfDados.length - 7]));
+    	           		consignacao = convertParaBoolean(pdfDados[pdfDados.length - 9]);
+    	           		valorParcela = Double.parseDouble(formatParaConversDecimal(pdfDados[pdfDados.length - 10]));
+    	           		
+    		            for(int j = 3; j < (pdfDados.length - 11); j++) {
+    		            	nome = ControlDiff.removEspacoIniFim(nome.concat(" "+pdfDados[j]));
+    		            }
+    		            
+    		            matricula = ControlDiff.removEspacoIniFim(pdfDados[2]);
+    	           	}
+    	           	
+    	          ConsignadoBra consig = new ConsignadoBra(nome, matricula, contrato, valorParcela, valorConsignado, Integer.parseInt(capturarParcelaAtual(parcelas)), Integer.parseInt(capturarTotalParcelas(parcelas)), consignacao, motivo, agCliente, ctCliente, cpf);
+    	          consignadosA.add(consig);
+    	          }
+            }
+            	
+        }
+           
+        if(document != null) {
+           	document.close();
+        }
+        
+        ConsignadoBra[] consignadosV = new ConsignadoBra[consignadosA.size()];
+        
+        return consignadosA.toArray(consignadosV);
+    }
 	
 	public static String removEspacoIniFim(String string) {
 		if(string.length() > 0) {
@@ -149,13 +269,13 @@ public class ControlDiff {
 		return string;
 	}
 	
-	public String formatParaConversDecimal(String string) {
+	public static String formatParaConversDecimal(String string) {
 		string  = string.replace(".", "");
 		string = string.replace(",", ".");
 		return removEspacoIniFim(string);
 	}
 	
-	private boolean convertParaBoolean(String string) {
+	public static boolean convertParaBoolean(String string) {
 		string = removEspacoIniFim(string);
 		boolean resultado = false;
 		if(string.equals("Sim")) {
@@ -164,13 +284,13 @@ public class ControlDiff {
 		return resultado;
 	}
 	
-	public String capturarParcelaAtual(String string) {
+	private String capturarParcelaAtual(String string) {
 		string = removEspacoIniFim(string);
 		return string.split("/")[0];
 		
 	}
 	
-	public String capturarTotalParcelas(String string) {
+	private String capturarTotalParcelas(String string) {
 		string = removEspacoIniFim(string);
 		return string.split("/")[1];
 		
