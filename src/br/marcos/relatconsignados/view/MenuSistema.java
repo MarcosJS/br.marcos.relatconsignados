@@ -2,6 +2,8 @@ package br.marcos.relatconsignados.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.SystemColor;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,13 +17,15 @@ public class MenuSistema extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	//private SelArqPanel selArq;
 	private boolean estaCarregado = false;
 	
 	public MenuSistema(ControlDiff cD, Color corFundoBotoes, Color corFonteBotoes, SelArqPanel selArq, AbaSistema saida) {
 		super();
+		//this.setSelArq(selArq);
 		this.setForeground(corFonteBotoes);
     	this.setBounds(0, 0, 319, 398);
-    	this.setBackground(new Color(255, 255, 102));
+    	this.setBackground(SystemColor.WHITE);
     	this.setLayout(null);
     	
     	JSeparator separator = new JSeparator();
@@ -139,4 +143,8 @@ public class MenuSistema extends JPanel {
 	public void setEstaCarregado(boolean estaCarregado) {
 		this.estaCarregado = estaCarregado;
 	}
+	
+	/*public void setSelArq(SelArqPanel selArq) {
+		this.selArq = selArq;
+	}*/
 }

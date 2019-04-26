@@ -3,6 +3,7 @@ package br.marcos.relatconsignados.control;
 import br.marcos.relatconsignados.model.Consignacoes;
 import br.marcos.relatconsignados.model.Consignado;
 import br.marcos.relatconsignados.model.ConsignadoBB;
+import br.marcos.relatconsignados.model.ConsignadoBra;
 
 public class DiffConsignacoes {
 	public static final int CONSIG_ATUAL = 0;
@@ -25,6 +26,19 @@ public class DiffConsignacoes {
 		}
 	}
 	
+	public void carregarConsignacoesBra(ConsignadoBra[] consignados1, ConsignadoBra[] consignados2) {
+		for(ConsignadoBra cB: consignados1) {
+			consignados[DiffConsignacoes.CONSIG_ATUAL].addConsignado(cB);
+		}
+		for(ConsignadoBra cB: consignados2) {
+			consignados[DiffConsignacoes.CONSIG_ANTERIOR].addConsignado(cB);
+		}
+	}
+	
+	public void carregarConsignacoes(Consignado[] concatVetores, Consignado[] concatVetores2) {
+		// TODO Auto-generated method stub
+		
+	}
 	public Consignado[] obterListConsignacoes(int i) {
 		Consignado[] consignados = null;
 		if(this.consignados[i].getQuantOperacoes() > 0) {
@@ -85,6 +99,4 @@ public class DiffConsignacoes {
 	public int getQuantOperacoes(int i) {
 		return consignados[i].getQuantOperacoes();
 	}
-	
-	
 }

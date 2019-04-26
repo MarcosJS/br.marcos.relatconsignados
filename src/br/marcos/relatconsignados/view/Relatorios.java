@@ -55,21 +55,14 @@ public class Relatorios {
        	}
        	
         int pag = 0;
-        //int c = 1;
         
 		for(int i = 1; i <= linhas; i++) {
 			if(i % consigPPag == 0) {
 				pag++;
-				//System.out.println("pulou");
-				//c = 1;
 			}
-        	//System.out.println(c+" - "+linha);
-			System.out.println(pag+" | "+i);
-			System.out.println(relatorio[i - 1]);
-			contents[pag].showText(relatorio[i - 1]);
+        	contents[pag].showText(relatorio[i - 1]);
 		    contents[pag].newLine();
-		    //c++;
-        }
+		}
 		
 		for(int i = 0; i < paginas; i++) {
 			contents[i].endText();
@@ -78,36 +71,6 @@ public class Relatorios {
 		
         doc.save(nomeArquivo+".pdf");
         doc.close();
-		
-		/*PDDocument doc = new PDDocument();
-        PDPage page = new PDPage();
- 
-        doc.addPage(page);
-        
-        PDPageContentStream contents = new PDPageContentStream(doc, page);
-               
-        contents.beginText();
-        
-        PDFont font = PDType1Font.COURIER;
-        contents.setFont(font, 10);
-        contents.setLeading(12.5f);
-        contents.newLineAtOffset(10, 775);
-        
-        contents.showText(cabecalho);
-       	contents.newLine();
-       	contents.newLine();
-       	contents.newLineAtOffset(30, 1);
-        
-        for(String linha: relatorio) {
-        	System.out.println(linha);
-			contents.showText(linha);
-		    contents.newLine();
-        }
-        contents.endText();
-        contents.close();
-        System.out.println(relatorio.length);
-        doc.save(nomeArquivo+".pdf");
-        doc.close();*/
 	}
 	
 	public static StyledDocument obterRelatorioRenderizado(String[] relatorio, String cabecalho) throws BadLocationException {
@@ -119,7 +82,7 @@ public class Relatorios {
 		
 		StyleConstants.setBold(justificado, true);
 		StyleConstants.setAlignment(justificado, StyleConstants.ALIGN_JUSTIFIED);
-		documento.insertString(offset, cabecalho+"\n"+"\n", left);
+		documento.insertString(offset, cabecalho+"\n", left);
 	    documento.setParagraphAttributes(offset, documento.getLength(), justificado, false);
 		
 	    offset = documento.getLength();

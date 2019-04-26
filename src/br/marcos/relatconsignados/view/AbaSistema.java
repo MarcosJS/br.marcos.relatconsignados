@@ -7,7 +7,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.text.BadLocationException;
 import br.marcos.relatconsignados.control.ControlDiff;
@@ -23,19 +22,22 @@ public class AbaSistema extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollPane;
+	private int tipo;	
 	private ControlDiff cD;
 	private String relExibido[] = null;
 	private String cabecalho = null;
 	private String nomeArq = null;
+	private Color corFaixas;
+	private Color corSelecao;
 	
-	public AbaSistema(ControlDiff cD) {
+	public AbaSistema(ControlDiff cD, int tipo, Color corFaixas, Color corSelecao) {
 		super();
 			
 		this.setBackground(Color.WHITE);
 		this.setLayout(null);
 		
 		JPanel saida = new JPanel();
-		saida.setBounds(318, 0, 800, 398);
+		saida.setBounds(318, 0, 850, 398);
 		saida.setBackground(Color.WHITE);
 		this.add(saida);
 		saida.setLayout(null);
@@ -73,39 +75,44 @@ public class AbaSistema extends JPanel {
 		
 		this.scrollPane = new JScrollPane();
 		scrollPane.setBackground(Color.WHITE);
-		scrollPane.setBounds(0, 0, 800, 398);
+		scrollPane.setBounds(0, 0, 850, 398);
 		saida.add(scrollPane);
 		this.setcD(cD);
+		this.setTipo(tipo);
+		this.setCorFaixas(corFaixas);
+		this.setCorSelecao(corSelecao);
 }
 	
 	public void renderizar(Relatorio rel) {
 		switch(rel) {
 		case ATUAIS:
-			this.relExibido = cD.obterListaConsignacoes(ControlDiff.BANCO_BRASIL, ControlDiff.CONSIG_ATUAL);
+			this.relExibido = cD.obterListaConsignacoes(this.tipo, ControlDiff.CONSIG_ATUAL);
 			this.cabecalho = "CONSIGNADOS DO MÊS ATUAL";
 			break;
 		case ANTERIORES:
-			this.relExibido = cD.obterListaConsignacoes(ControlDiff.BANCO_BRASIL, ControlDiff.CONSIG_ANTERIOR);
+			this.relExibido = cD.obterListaConsignacoes(this.tipo, ControlDiff.CONSIG_ANTERIOR);
 			this.cabecalho = "CONSIGNADOS DO MÊS ANTERIOR";
 			break;
 		case NOVOS:
-			this.relExibido = cD.obterListaNovos(ControlDiff.BANCO_BRASIL);
+			this.relExibido = cD.obterListaNovos(this.tipo);
 			this.cabecalho = "NOVOS CONSIGNADOS";
 			break;
 		case EXCLUIDOS:
-			this.relExibido = cD.obterListaExcluidos(ControlDiff.BANCO_BRASIL);
+			this.relExibido = cD.obterListaExcluidos(this.tipo);
 			this.cabecalho = "CONSIGNADOS EXCLUÍDOS";
 			break;
 		case INALTERADOS:
-			this.relExibido = cD.obterListaInalterados(ControlDiff.BANCO_BRASIL);
+			this.relExibido = cD.obterListaInalterados(this.tipo);
 			this.cabecalho = "CONSIGNADOS INALTERADOS";
 			break;
 		default:
 			break;
 		}
-		JTextPane textPane;
+		
+		PainelTextoDestacado textPane;
+		
 		try {
-			textPane = new JTextPane(Relatorios.obterRelatorioRenderizado(this.relExibido, cabecalho));
+			textPane = new PainelTextoDestacado(Relatorios.obterRelatorioRenderizado(this.relExibido, this.cabecalho), this.corFaixas, this.corSelecao);
 			textPane.setEditable(false);
 			this.scrollPane.setViewportView(textPane);
 		} catch (BadLocationException e) {
@@ -128,4 +135,17 @@ public class AbaSistema extends JPanel {
 	public void setcD(ControlDiff cD) {
 		this.cD = cD;
 	}
+	
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+
+	public void setCorFaixas(Color corFaixas) {
+		this.corFaixas = corFaixas;
+	}
+
+	public void setCorSelecao(Color corSelecao) {
+		this.corSelecao = corSelecao;
+	}
+
 }

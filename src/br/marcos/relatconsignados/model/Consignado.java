@@ -30,6 +30,15 @@ public class Consignado {
 		return totalParcelas - (parcelaAtual - 1);
 	}
 	
+	public String toStringSimple() {
+		String nome = String.format("%1$-33s", this.getNome());
+		String valorConsignado = String.format("%1$8s", String.valueOf(this.getValorConsignado()));
+		String valorParcela = String.format("%1$8s", String.valueOf(this.getValorParcela()));
+		String parcelaAtual = String.format("%1$3s", String.valueOf(this.getParcelaAtual()));
+		String totalParcelas = String.format("%1$3s", String.valueOf(this.getTotalParcelas()));
+		return nome+" "+this.getIdConsignado()+" "+valorParcela+" "+valorConsignado+" "+parcelaAtual+" "+totalParcelas;
+	}
+
 	public String getNome() {
 		return nome;
 	}
