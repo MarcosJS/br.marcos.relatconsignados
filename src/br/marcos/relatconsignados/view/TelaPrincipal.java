@@ -6,15 +6,17 @@ import java.awt.SystemColor;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.filechooser.FileSystemView;
 
 import br.marcos.relatconsignados.control.ControlDiff;
-import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 public class TelaPrincipal extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	JFileChooser explorador = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	
 	public TelaPrincipal() {
 		super();
@@ -32,15 +34,16 @@ public class TelaPrincipal extends JFrame {
     	
     	SelArqPanelBB arqBB = new SelArqPanelBB(cD);
     	SelArqPanelBra arqBra = new SelArqPanelBra(cD);
-    	/*novo painel de sel*/SelArqPanelFolBB arqFolBB = new SelArqPanelFolBB(cD);
+    	/*novo painel de sel*/PainelSelecaoAquivoBBFolha arqBBFol = new PainelSelecaoAquivoBBFolha(cD);
+    	arqBBFol.setExplorador(explorador);
     	
-    	AbaSistema abaBB = new AbaSistema(cD, ControlDiff.BANCO_BRASIL, new Color(230, 230, 255), new Color(150,255, 150));
-    	AbaSistema abaBra = new AbaSistema(cD, ControlDiff.BRADESCO, new Color(255, 230, 230), new Color(150, 150, 255));
-    	/*nova aba*/AbaSistema abaFolBB = new AbaSistema(cD, ControlDiff.BRADESCO, new Color(255, 230, 230), new Color(150, 150, 255));
+    	AbaSaida abaBB = new AbaSaida(cD, ControlDiff.BANCO_BRASIL, new Color(230, 230, 255), new Color(150,255, 150));
+    	AbaSaida abaBra = new AbaSaida(cD, ControlDiff.BRADESCO, new Color(255, 230, 230), new Color(150, 150, 255));
+    	/*nova aba*/AbaSaida abaFolBB = new AbaSaida(cD, ControlDiff.BANCO_BRASIL_FOLHA, new Color(255, 230, 230), new Color(150, 150, 255));
     	
     	MenuSistema menuBB = new MenuSistema(cD, new Color(100, 149, 237), SystemColor.WHITE, arqBB, abaBB);
     	MenuSistema menuBra = new MenuSistema(cD, SystemColor.RED, SystemColor.WHITE, arqBra, abaBra);
-    	/*novo menu*/MenuSistema menuFolBB = new MenuSistema(cD, new Color(255, 255, 255), new Color(0, 0, 0), arqFolBB, abaFolBB);
+    	/*novo menu*/MenuSistema menuFolBB = new MenuSistema(cD, new Color(255, 255, 255), new Color(0, 0, 0), arqBBFol, abaFolBB);
     	
     	menuBB.setBackground(new Color(255, 255, 102));
     	/*cor de fundo do menu*/menuFolBB.setBackground(new Color(82, 127, 118));
@@ -52,15 +55,7 @@ public class TelaPrincipal extends JFrame {
     	abas.addTab("Banco do Brasil", null, abaBB, null);
     	abas.addTab("Bradesco", null, abaBra, null);
     	/*add abaFolBB*/abas.addTab("Folha/Banco do Brasil", null, abaFolBB, null);
-    	
-    	JButton bSalvar = new JButton("Salvar");
-    	bSalvar.setToolTipText("Salva documento em formato pdf");
-    	bSalvar.setBackground(new Color(100, 149, 237));
-    	bSalvar.setForeground(Color.WHITE);
-    	bSalvar.setBounds(690, 0, 89, 23);
-    	abaBB.add(bSalvar);
-    	
-	}
+    }
 	
 	public void renderizar() {
 		this.setVisible(true);

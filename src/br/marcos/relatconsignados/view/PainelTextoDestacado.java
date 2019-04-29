@@ -21,6 +21,7 @@ public class PainelTextoDestacado extends JTextPane {
 		this.setCorFaixas(corFaixas);
 		this.setCorSelecao(corSelecao);
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void paintComponent(Graphics g) {
 	    g.setColor(getBackground());

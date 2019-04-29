@@ -26,7 +26,8 @@ public class HighlightLineTextPane extends JTextPane {
 	    g.setColor(getBackground());
 	    g.fillRect(0, 0, getWidth(), getHeight());
 	    try {
-	      Rectangle rect = modelToView(getCaretPosition());
+	      @SuppressWarnings("deprecation")
+		Rectangle rect = modelToView(getCaretPosition());
 	      if (rect != null) {
 	        g.setColor(new Color(230,230,255));
 	        g.fillRect(0, rect.y, getWidth(), rect.height);

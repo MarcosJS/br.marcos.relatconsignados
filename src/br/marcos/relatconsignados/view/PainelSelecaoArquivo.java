@@ -2,7 +2,7 @@ package br.marcos.relatconsignados.view;
 
 import javax.swing.JPanel;
 
-public abstract class SelArqPanel extends JPanel{
+public abstract class PainelSelecaoArquivo extends JPanel{
 	/**
 	 * 
 	 */

@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import br.marcos.relatconsignados.control.ControlDiff;
+import br.marcos.relatconsignados.control.TipoConsignados;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -20,7 +22,7 @@ public class MenuSistema extends JPanel {
 	//private SelArqPanel selArq;
 	private boolean estaCarregado = false;
 	
-	public MenuSistema(ControlDiff cD, Color corFundoBotoes, Color corFonteBotoes, SelArqPanel selArq, AbaSistema saida) {
+	public MenuSistema(ControlDiff cD, Color corFundoBotoes, Color corFonteBotoes, PainelSelecaoArquivo selArq, AbaSaida saida) {
 		super();
 		//this.setSelArq(selArq);
 		this.setForeground(corFonteBotoes);
@@ -53,7 +55,8 @@ public class MenuSistema extends JPanel {
     	btnMostrarAtual.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if (getEstaCarregado()) {
-					saida.renderizar(AbaSistema.Relatorio.ATUAIS);
+					//saida.renderizar(AbaSistema.AbaSaida.ATUAIS);
+    				saida.setConsignadoExibido(TipoConsignados.REFERENCIA);
 				} else {
 					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
@@ -70,7 +73,8 @@ public class MenuSistema extends JPanel {
     	btnMostrarMsAnterior.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if (getEstaCarregado()) {
-					saida.renderizar(AbaSistema.Relatorio.ANTERIORES);
+					//saida.renderizar(AbaSistema.AbaSaida.ANTERIORES);
+    				saida.setConsignadoExibido(TipoConsignados.AMOSTRA);
 				} else {
 					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
@@ -87,7 +91,8 @@ public class MenuSistema extends JPanel {
     	btnNovos.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if (getEstaCarregado()) {
-					saida.renderizar(AbaSistema.Relatorio.NOVOS);
+					//saida.renderizar(AbaSistema.AbaSaida.NOVOS);
+    				saida.setConsignadoExibido(TipoConsignados.NOVOS);
 				} else {
 					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
@@ -104,7 +109,8 @@ public class MenuSistema extends JPanel {
     	btnExcludos.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if (getEstaCarregado()) {
-					saida.renderizar(AbaSistema.Relatorio.EXCLUIDOS);
+					//saida.renderizar(AbaSistema.AbaSaida.EXCLUIDOS);
+    				saida.setConsignadoExibido(TipoConsignados.EXCLUIDOS);
 				} else {
 					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
@@ -121,7 +127,8 @@ public class MenuSistema extends JPanel {
     	btnInalterado.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if (getEstaCarregado()) {
-					saida.renderizar(AbaSistema.Relatorio.INALTERADOS);
+					//saida.renderizar(AbaSistema.AbaSaida.INALTERADOS);
+    				saida.setConsignadoExibido(TipoConsignados.INALTERADOS);
 				} else {
 					JOptionPane.showMessageDialog(null, "Os arquivos não foram carregados corretamente!", "Alerta", JOptionPane.WARNING_MESSAGE);
 				}
@@ -143,8 +150,4 @@ public class MenuSistema extends JPanel {
 	public void setEstaCarregado(boolean estaCarregado) {
 		this.estaCarregado = estaCarregado;
 	}
-	
-	/*public void setSelArq(SelArqPanel selArq) {
-		this.selArq = selArq;
-	}*/
 }

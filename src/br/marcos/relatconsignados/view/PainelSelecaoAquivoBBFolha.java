@@ -17,51 +17,51 @@ import br.marcos.relatconsignados.control.ControlDiff;
 import java.io.File;
 
 
-public class SelArqPanelFolBB extends SelArqPanel{
+public class PainelSelecaoAquivoBBFolha extends PainelSelecaoArquivo{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private File[] arquivo = new File[5];
 	JFileChooser explorador = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-	private ControlDiff sessaoD;
+	private ControlDiff sessaoDiff;
 
-	public SelArqPanelFolBB(ControlDiff cD) {
+	public PainelSelecaoAquivoBBFolha(ControlDiff contrlDiff) {
 		super();
 		
-		this.setOpaque(false);
-		this.setBounds(10, 11, 294, 154);
+		//this.setOpaque(false);
+		this.setBounds(10, 11, 294, 156);
 		this.setBackground(Color.ORANGE);
 		this.setLayout(null);
 		
 		/*------------------------LABELS---------------------------------*/
-		JLabel label = new JLabel("Arquivos da folha:");
-		label.setBounds(64, 0, 130, 14);
+		JLabel label = new JLabel("Consignado:");
+		label.setBounds(64, 0, 130, 20);
 		this.add(label);
 		
 		JLabel label_1 = new JLabel("1\u00BA Arquivo");
-		label_1.setBounds(0, 20, 59, 14);
+		label_1.setBounds(0, 20, 59, 20);
 		this.add(label_1);
 		
 		JLabel label_2 = new JLabel("2\u00BA Arquivo");
-		label_2.setBounds(0, 45, 59, 14);
+		label_2.setBounds(0, 45, 59, 20);
 		this.add(label_2);
 		
 		//novo label
-		JLabel label_3 = new JLabel("3\u00BA Arquivo");
-		label_3.setBounds(0, 70, 59, 14);
+		JLabel label_3 = new JLabel("Arquivos da Folha:");
+		label_3.setBounds(64, 65, 154, 20);
 		this.add(label_3);
 		
-		JLabel label_4 = new JLabel("Consignado:");
-		label_4.setBounds(64, 90, 166, 14);
+		JLabel label_4 = new JLabel("1\u00BA Arquivo");
+		label_4.setBounds(0, 85, 59, 20);
 		this.add(label_4);
 		
-		JLabel label_5 = new JLabel("1\u00BA Arquivo");
-		label_5.setBounds(0, 110, 59, 14);
+		JLabel label_5 = new JLabel("2\u00BA Arquivo");
+		label_5.setBounds(0, 110, 59, 20);
 		this.add(label_5);
 		
-		JLabel label_6 = new JLabel("2\u00BA Arquivo");
-		label_6.setBounds(0, 135, 59, 14);
+		JLabel label_6 = new JLabel("3\u00BA Arquivo");
+		label_6.setBounds(0, 135, 59, 20);
 		this.add(label_6);
 		
 		/*------------------------TEXTFIELDS-----------------------------*/
@@ -77,7 +77,7 @@ public class SelArqPanelFolBB extends SelArqPanel{
 				
 		JTextField campo3 = new JTextField();
 		campo3.setColumns(10);
-		campo3.setBounds(64, 70, 154, 20);
+		campo3.setBounds(64, 85, 154, 20);
 		this.add(campo3);
 		
 		JTextField campo4 = new JTextField();
@@ -96,35 +96,35 @@ public class SelArqPanelFolBB extends SelArqPanel{
 		button.setForeground(Color.WHITE);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		button.setBackground(new Color(100, 149, 237));
-		button.setBounds(216, 20, 78, 23);
+		button.setBounds(216, 20, 78, 20);
 		this.add(button);
 		
 		JButton button_2 = new JButton("Browse2");
 		button_2.setForeground(Color.WHITE);
 		button_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		button_2.setBackground(new Color(100, 149, 237));
-		button_2.setBounds(216, 45, 78, 23);
+		button_2.setBounds(216, 45, 78, 20);
 		this.add(button_2);
 		
 		JButton button_3 = new JButton("Browse3");
 		button_3.setForeground(Color.WHITE);
 		button_3.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		button_3.setBackground(new Color(100, 149, 237));
-		button_3.setBounds(216, 70, 78, 23);
+		button_3.setBounds(216, 85, 78, 20);
 		this.add(button_3);
 		
 		JButton button_4 = new JButton("Browse4");
 		button_4.setForeground(Color.WHITE);
 		button_4.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		button_4.setBackground(new Color(100, 149, 237));
-		button_4.setBounds(216, 110, 78, 23);
+		button_4.setBounds(216, 110, 78, 20);
 		this.add(button_4);
 		
 		JButton button_5 = new JButton("Browse5");
 		button_5.setForeground(Color.WHITE);
 		button_5.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		button_5.setBackground(new Color(100, 149, 237));
-		button_5.setBounds(216, 135, 78, 23);
+		button_5.setBounds(216, 135, 78, 20);
 		this.add(button_5);
 		
 		/*------------------------ACTIONS--------------------------------*/
@@ -158,8 +158,8 @@ public class SelArqPanelFolBB extends SelArqPanel{
 				int selecao = explorador.showOpenDialog(null);
 				if (selecao == JFileChooser.APPROVE_OPTION) {
 					arquivo[2] = explorador.getSelectedFile();
-					campo3.setText(arquivo[1].getAbsolutePath());
-					System.out.println(arquivo[1].getAbsolutePath());
+					campo3.setText(arquivo[2].getAbsolutePath());
+					System.out.println(arquivo[2].getAbsolutePath());
 				}
 			}
 		});
@@ -170,8 +170,8 @@ public class SelArqPanelFolBB extends SelArqPanel{
 				int selecao = explorador.showOpenDialog(null);
 				if (selecao == JFileChooser.APPROVE_OPTION) {
 					arquivo[3] = explorador.getSelectedFile();
-					campo4.setText(arquivo[2].getAbsolutePath());
-					System.out.println(arquivo[2].getAbsolutePath());
+					campo4.setText(arquivo[3].getAbsolutePath());
+					System.out.println(arquivo[3].getAbsolutePath());
 				}
 			}
 		});
@@ -182,13 +182,13 @@ public class SelArqPanelFolBB extends SelArqPanel{
 				int selecao = explorador.showOpenDialog(null);
 				if (selecao == JFileChooser.APPROVE_OPTION) {
 					arquivo[4] = explorador.getSelectedFile();
-					campo5.setText(arquivo[3].getAbsolutePath());
-					System.out.println(arquivo[3].getAbsolutePath());
+					campo5.setText(arquivo[4].getAbsolutePath());
+					System.out.println(arquivo[4].getAbsolutePath());
 				}
 			}
 		});
 
-		this.setSessaoD(cD);
+		this.setSessaoD(contrlDiff);
 	}
 	
 	@Override
@@ -222,7 +222,7 @@ public class SelArqPanelFolBB extends SelArqPanel{
 			int[] inicioApos = {7, 7};
 			int[] fimAntes = {6, 5};
 			try {
-				sessaoD.carregarConsignacoesFolBB(arquivo, inicioApos, fimAntes);
+				sessaoDiff.carregarConsignacoesFolBB(arquivo, inicioApos, fimAntes);
 			} catch (Exception e) {
 				resultado = false;
 				JOptionPane.showMessageDialog(null, "Erro no carregamento dos arquivos!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -236,6 +236,20 @@ public class SelArqPanelFolBB extends SelArqPanel{
 	}
 	
 	public void setSessaoD(ControlDiff sessaoD) {
-		this.sessaoD = sessaoD;
+		this.sessaoDiff = sessaoD;
+	}
+
+	/**
+	 * @return the explorador
+	 */
+	public JFileChooser getExplorador() {
+		return explorador;
+	}
+
+	/**
+	 * @param explorador the explorador to set
+	 */
+	public void setExplorador(JFileChooser explorador) {
+		this.explorador = explorador;
 	}
 }

@@ -9,28 +9,27 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.text.BadLocationException;
+
+import br.marcos.relatconsignados.control.TipoConsignados;
 import br.marcos.relatconsignados.control.ControlDiff;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AbaSistema extends JPanel {
-	public static enum Relatorio {
-		ATUAIS, ANTERIORES, NOVOS, EXCLUIDOS, INALTERADOS;
-	}
+public class AbaSaida extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollPane;
 	private int tipo;	
-	private ControlDiff cD;
+	private ControlDiff controlDiff;
 	private String relExibido[] = null;
 	private String cabecalho = null;
 	private String nomeArq = null;
 	private Color corFaixas;
 	private Color corSelecao;
 	
-	public AbaSistema(ControlDiff cD, int tipo, Color corFaixas, Color corSelecao) {
+	public AbaSaida(ControlDiff controlDiff, int tipo, Color corFaixas, Color corSelecao) {
 		super();
 			
 		this.setBackground(Color.WHITE);
@@ -77,38 +76,20 @@ public class AbaSistema extends JPanel {
 		scrollPane.setBackground(Color.WHITE);
 		scrollPane.setBounds(0, 0, 850, 398);
 		saida.add(scrollPane);
-		this.setcD(cD);
+		this.setcD(controlDiff);
 		this.setTipo(tipo);
 		this.setCorFaixas(corFaixas);
 		this.setCorSelecao(corSelecao);
-}
+	}
 	
-	public void renderizar(Relatorio rel) {
-		switch(rel) {
-		case ATUAIS:
-			this.relExibido = cD.obterListaConsignacoes(this.tipo, ControlDiff.CONSIG_ATUAL);
-			this.cabecalho = "CONSIGNADOS DO MÊS ATUAL";
-			break;
-		case ANTERIORES:
-			this.relExibido = cD.obterListaConsignacoes(this.tipo, ControlDiff.CONSIG_ANTERIOR);
-			this.cabecalho = "CONSIGNADOS DO MÊS ANTERIOR";
-			break;
-		case NOVOS:
-			this.relExibido = cD.obterListaNovos(this.tipo);
-			this.cabecalho = "NOVOS CONSIGNADOS";
-			break;
-		case EXCLUIDOS:
-			this.relExibido = cD.obterListaExcluidos(this.tipo);
-			this.cabecalho = "CONSIGNADOS EXCLUÍDOS";
-			break;
-		case INALTERADOS:
-			this.relExibido = cD.obterListaInalterados(this.tipo);
-			this.cabecalho = "CONSIGNADOS INALTERADOS";
-			break;
-		default:
-			break;
-		}
-		
+	public void setConsignadoExibido(TipoConsignados tipoConsignado) {
+		this.relExibido = controlDiff.obterListaConsignacoes(tipo, tipoConsignado);
+		this.cabecalho = tipoConsignado.getDescricao();
+		this.nomeArq = tipoConsignado.toString();
+		this.renderizarConsignados();
+	}
+	
+	private void renderizarConsignados() {
 		PainelTextoDestacado textPane;
 		
 		try {
@@ -119,7 +100,7 @@ public class AbaSistema extends JPanel {
 			JOptionPane.showMessageDialog(null, "Falha na renderização dos consignados!", "Erro", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		this.nomeArq = rel.toString();
+		//this.nomeArq = rel.toString();
 	}
 	
 	private void salvarRelExibido(String local) {
@@ -133,7 +114,7 @@ public class AbaSistema extends JPanel {
 	}
 	
 	public void setcD(ControlDiff cD) {
-		this.cD = cD;
+		this.controlDiff = cD;
 	}
 	
 	public void setTipo(int tipo) {
@@ -147,5 +128,4 @@ public class AbaSistema extends JPanel {
 	public void setCorSelecao(Color corSelecao) {
 		this.corSelecao = corSelecao;
 	}
-
 }

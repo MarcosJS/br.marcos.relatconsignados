@@ -17,7 +17,7 @@ import br.marcos.relatconsignados.control.ControlDiff;
 import java.io.File;
 
 
-public class SelArqPanelBB extends SelArqPanel{
+public class SelArqPanelBB extends PainelSelecaoArquivo{
 	/**
 	 * 
 	 */

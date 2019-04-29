@@ -1,8 +1,10 @@
 package br.marcos.relatconsignados.control;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -11,136 +13,82 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import br.marcos.relatconsignados.model.Consignado;
 import br.marcos.relatconsignados.model.ConsignadoBB;
 import br.marcos.relatconsignados.model.ConsignadoBra;
-import br.marcos.relatconsignados.model.ConsignadoFol;
+import br.marcos.relatconsignados.model.ConsignadoFolha;
 
 public class ControlDiff {
-	public static int CONSIG_ATUAL = DiffConsignacoes.CONSIG_ATUAL;
-	public static int CONSIG_ANTERIOR = DiffConsignacoes.CONSIG_ANTERIOR;
-	public static int BANCO_BRASIL = 1;
-	public static int BRADESCO = 2;
-	private DiffConsignacoes bancoBrasil;
-	private DiffConsignacoes bradesco;
-	private DiffConsignacoes folha;
+	public static int BANCO_BRASIL = 0;
+	public static int BRADESCO = 1;
+	public static int BANCO_BRASIL_FOLHA = 2;
+	
+	private DiffConsignacoes[] diffConsignacoes = new DiffConsignacoes[3];
 	
 	public ControlDiff() {
-		this.bancoBrasil = new DiffConsignacoes();
-		this.bradesco = new DiffConsignacoes();
-		this.folha = new DiffConsignacoes();
+		diffConsignacoes[BANCO_BRASIL] = new DiffConsignacoes(5);
+		diffConsignacoes[BRADESCO] = new DiffConsignacoes(5);
+		diffConsignacoes[BANCO_BRASIL_FOLHA] = new DiffConsignacoes(5);
 	}
 	
 	public void carregarConsignacoesBB(File[] arquivo, int[] inicioApos, int[] fimAntes) throws InvalidPasswordException, IOException {
-		ConsignadoBB[][] vetorConsignados1 = {this.convertArqConsigBB(arquivo[0], inicioApos[0], fimAntes[0]), this.convertArqConsigBB(arquivo[1], inicioApos[1], fimAntes[1])};
-		ConsignadoBB[][] vetorConsignados2 = {this.convertArqConsigBB(arquivo[2], inicioApos[2], fimAntes[2]), this.convertArqConsigBB(arquivo[3], inicioApos[3], fimAntes[3])};
-		this.bancoBrasil.carregarConsignacoesBB(this.concatVetores(vetorConsignados1), this.concatVetores(vetorConsignados2));
+		this.convertArqConsigBB(BANCO_BRASIL, 0, arquivo[0], inicioApos[0], fimAntes[0]);
+		this.convertArqConsigBB(BANCO_BRASIL, 0, arquivo[1], inicioApos[1], fimAntes[1]);
+		this.convertArqConsigBB(BANCO_BRASIL, 1, arquivo[2], inicioApos[2], fimAntes[2]);
+		this.convertArqConsigBB(BANCO_BRASIL, 1, arquivo[3], inicioApos[3], fimAntes[3]);
+		diffConsignacoes[BANCO_BRASIL].realizarDiff();
 	}
 	
 	public void carregarConsignacoesBra(File[] arquivo, int[] inicioAposPag1, int[] inicioApos, int[] fimAntes) throws InvalidPasswordException, IOException {
-		ConsignadoBra[] vetorConsignados1 = this.convertArqConsigBra(arquivo[0], inicioAposPag1[0], inicioApos[0], fimAntes[0]);
-		ConsignadoBra[] vetorConsignados2 = this.convertArqConsigBra(arquivo[1], inicioAposPag1[1], inicioApos[1], fimAntes[1]);
-		this.bradesco.carregarConsignacoesBra(vetorConsignados1, vetorConsignados2);
+		this.convertArqConsigBra(BRADESCO, 0, arquivo[0], inicioAposPag1[0], inicioApos[0], fimAntes[0]);
+		this.convertArqConsigBra(BRADESCO, 1,arquivo[1], inicioAposPag1[1], inicioApos[1], fimAntes[1]);
+		diffConsignacoes[BRADESCO].realizarDiff();
 	}
+	
 	public void carregarConsignacoesFolBB(File[] arquivo, int[] inicioApos, int[] fimAntes) throws InvalidPasswordException, IOException {
-		ConsignadoFol[][] vetorConsignadosFol = {this.convertArqConsigFol(arquivo[0]), this.convertArqConsigFol(arquivo[1]), this.convertArqConsigFol(arquivo[2])};
-		ConsignadoBB[][] vetorConsignados = {this.convertArqConsigBB(arquivo[3], inicioApos[3], fimAntes[3]), this.convertArqConsigBB(arquivo[4], inicioApos[4], fimAntes[4])};
-		this.folha.carregarConsignacoes(this.concatVetoresFolBB(vetorConsignadosFol), this.concatVetores(vetorConsignados));
+		this.convertArqConsigBB(BANCO_BRASIL_FOLHA, 0, arquivo[0], inicioApos[0], fimAntes[0]);
+		this.convertArqConsigBB(BANCO_BRASIL_FOLHA, 0, arquivo[1], inicioApos[1], fimAntes[1]);
+		this.convertArqConsigFol(BANCO_BRASIL_FOLHA, 1, arquivo[2]);
+		this.convertArqConsigFol(BANCO_BRASIL_FOLHA, 1, arquivo[3]);
+		this.convertArqConsigFol(BANCO_BRASIL_FOLHA, 1, arquivo[4]);
+		diffConsignacoes[BANCO_BRASIL_FOLHA].realizarDiff();
 	}
-	public String[] obterListaConsignacoes(int tipoConsignado, int ordem) {
+	
+	public String[] obterListaConsignacoes(int tipoDiff, TipoConsignados tipoConsignado) {
 		String[] consignacoes = null;
-		if(tipoConsignado == ControlDiff.BANCO_BRASIL) {
-			consignacoes = new String[bancoBrasil.getQuantOperacoes(ordem)];
-			int i = 0;
-			for(Consignado cB: this.bancoBrasil.obterListConsignacoes(ordem)) {
-				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
-				i++;
-			}
-		} else if(tipoConsignado == ControlDiff.BRADESCO) {
-			consignacoes = new String[bradesco.getQuantOperacoes(ordem)];
-			int i = 0;
-			for(Consignado cB: this.bradesco.obterListConsignacoes(ordem)) {
-				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
-				i++;
-			}
+		consignacoes = new String[diffConsignacoes[tipoDiff].getQuantOperacoes(tipoConsignado)];
+		int i = 0;
+		for(Consignado consig: diffConsignacoes[tipoDiff].obterListaConsignacoes(tipoConsignado)) {
+			consignacoes[i] = consig.toStringSimple();
+			i++;
 		}
 		return consignacoes;
 	}
 	
-	public String[] obterListaNovos(int tipoConsignado) {
-		String[] consignacoes = null;
-		if(tipoConsignado == ControlDiff.BANCO_BRASIL) {
-			Consignado[] novosVetor = this.bancoBrasil.obterNovosConsignados();
-			consignacoes = new String[novosVetor.length];
-			int i = 0;
-			for(Consignado cB: novosVetor) {
-				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
-				i++;
-			}
-		} else if(tipoConsignado == ControlDiff.BRADESCO) {
-			Consignado[] novosVetor = this.bradesco.obterNovosConsignados();
-			consignacoes = new String[novosVetor.length];
-			int i = 0;
-			for(Consignado cB: novosVetor) {
-				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
-				i++;
-			}
-		}
-		return consignacoes;
-	}
-	
-	public String[] obterListaExcluidos(int tipoConsignado) {
-		String[] consignacoes = null;
-		if(tipoConsignado == ControlDiff.BANCO_BRASIL) {
-			Consignado[] novosVetor = this.bancoBrasil.obterConsignadosExcluidos();
-			consignacoes = new String[novosVetor.length];
-			int i = 0;
-			for(Consignado cB: novosVetor) {
-				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
-				i++;
-			}
-		} else if(tipoConsignado == ControlDiff.BRADESCO) {
-			Consignado[] novosVetor = this.bradesco.obterConsignadosExcluidos();
-			consignacoes = new String[novosVetor.length];
-			int i = 0;
-			for(Consignado cB: novosVetor) {
-				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
-				i++;
-			}
-		}
-		return consignacoes;
-	}
-	
-	public String[] obterListaInalterados(int tipoConsignado) {
-		String[] consignacoes = null;
-		if(tipoConsignado == ControlDiff.BANCO_BRASIL) {
-			Consignado[] novosVetor = this.bancoBrasil.obterInalterados();
-			consignacoes = new String[novosVetor.length];
-			int i = 0;
-			for(Consignado cB: novosVetor) {
-				consignacoes[i] = ((ConsignadoBB) cB).toStringSimple();
-				i++;
-			}
-		} else if(tipoConsignado == ControlDiff.BRADESCO) {
-			Consignado[] novosVetor = this.bradesco.obterInalterados();
-			consignacoes = new String[novosVetor.length];
-			int i = 0;
-			for(Consignado cB: novosVetor) {
-				consignacoes[i] = ((ConsignadoBra) cB).toStringSimple();
-				i++;
-			}
-		}
-		return consignacoes;
-	}
-	/*nova funcao*/
-	private ConsignadoFol[] convertArqConsigFol(File arquivo) {
+	private void convertArqConsigFol(int diffConsignacao, int prioridade, File arquivo) throws FileNotFoundException {
 		
-		return null;
+		Scanner in = new Scanner(new FileReader(arquivo.getAbsolutePath()));
+		
+		while (in.hasNextLine()) {
+		    String linha = in.nextLine();
+		    String dados[] = linha.split(",");
+		    
+		    String matricula = dados[0];
+		    String contratante = removerCaracterIniFim(dados[1], '"');
+		    double valorParcela = Double.parseDouble(removerCaracterIniFim(dados[5].replace(".", "")+'.'+dados[6], '"'));
+		    
+		    
+		    
+		    ConsignadoFolha consig = new ConsignadoFolha(contratante, valorParcela, matricula);
+            
+            diffConsignacoes[diffConsignacao].adicionarConsignado(consig, prioridade);   
+		}
+		in.close();
 	}
-	private ConsignadoBB[] convertArqConsigBB(File arquivo, int inicioApos, int fimAntes) throws InvalidPasswordException, IOException {
+	
+	private void convertArqConsigBB(int diffConsignacao, int prioridade, File arquivo, int inicioApos, int fimAntes) throws InvalidPasswordException, IOException {
 		PDDocument document = null;
         document = PDDocument.load(arquivo);
 	    PDFTextStripper stripper = new PDFTextStripper();
 	    String pdfText = stripper.getText(document).toString();
 	    String pdfLinhas[] = pdfText.split("\n");
-	    ArrayList<ConsignadoBB> consignadosA = new ArrayList<ConsignadoBB>();
 	    	    	    
 	    for(int i = 0; i <= pdfLinhas.length - fimAntes; i++) {
 	    	
@@ -149,33 +97,29 @@ public class ControlDiff {
 	    	if(i > inicioApos) {         	
 	        	double consignado = Double.parseDouble(formatParaConversDecimal(pdfDados[pdfDados.length - 1]));
 	        	double valorParcela = Double.parseDouble(formatParaConversDecimal(pdfDados[pdfDados.length - 2]));
-	        	String cpf = removEspacoIniFim(pdfDados[pdfDados.length - 3]);
-	        	int sequencia = Integer.parseInt(removEspacoIniFim(pdfDados[pdfDados.length - 4]));
-	        	String operacao = removEspacoIniFim(pdfDados[pdfDados.length - 5]);
-	        	String matricula = removEspacoIniFim(pdfDados[pdfDados.length - 6]);
+	        	String cpf = removerCaracterIniFim(pdfDados[pdfDados.length - 3], ' ');
+	        	int sequencia = Integer.parseInt(removerCaracterIniFim(pdfDados[pdfDados.length - 4], ' '));
+	        	String operacao = removerCaracterIniFim(pdfDados[pdfDados.length - 5], ' ');
+	        	String matricula = removerCaracterIniFim(pdfDados[pdfDados.length - 6], ' ');
 	        	String contratante = "";
 	        
 	            for(int j = 0; j < (pdfDados.length - 6); j++) {
 	            	contratante = contratante.concat(" "+pdfDados[j]);
 	            }
-	            //
-	            contratante = removEspacoIniFim(contratante);
-	            ConsignadoBB consig = new ConsignadoBB(contratante, matricula, operacao, valorParcela, consignado, 0, 0, sequencia, cpf);
 	            
-	            consignadosA.add(consig);
+	            contratante = removerCaracterIniFim(contratante, ' ');
+	            ConsignadoBB consig = new ConsignadoBB(contratante, matricula, operacao, valorParcela, consignado, sequencia, cpf);
+	            
+	            diffConsignacoes[diffConsignacao].adicionarConsignado(consig, prioridade);
 	    	}
 	    }
-	    
 	    document.close();
-	    ConsignadoBB[] consignadosV = new ConsignadoBB[consignadosA.size()];
-	    return consignadosA.toArray(consignadosV);
 	}
 	
-	private ConsignadoBra[] convertArqConsigBra(File arquivo, int inicioAposPag1, int inicioApos, int fimAntes) throws IOException {
+	private void convertArqConsigBra(int diffConsignacao, int prioridade, File arquivo, int inicioAposPag1, int inicioApos, int fimAntes) throws IOException {
         PDDocument document = PDDocument.load(arquivo);
         PDFTextStripper stripper = new PDFTextStripper();
         int inicio = inicioAposPag1;
-        ArrayList<ConsignadoBra> consignadosA = new ArrayList<ConsignadoBra>();
             
         for(int p = 0; p < document.getNumberOfPages(); p++) {
         	stripper.setStartPage(p + 1);
@@ -191,10 +135,10 @@ public class ControlDiff {
                	}
            		
                	if(i >= inicio) {
-               		String ctCliente = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 1]);
-               		String agCliente = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 2]);
-               		String parcelas = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 4]);
-               		String cpf = ControlDiff.removEspacoIniFim(pdfDados[pdfDados.length - 5]);
+               		String ctCliente = ControlDiff.removerCaracterIniFim(pdfDados[pdfDados.length - 1], ' ');
+               		String agCliente = ControlDiff.removerCaracterIniFim(pdfDados[pdfDados.length - 2], ' ');
+               		String parcelas = ControlDiff.removerCaracterIniFim(pdfDados[pdfDados.length - 4], ' ');
+               		String cpf = ControlDiff.removerCaracterIniFim(pdfDados[pdfDados.length - 5], ' ');
     	           	String contrato = (pdfDados[pdfDados.length - 6]);
     	           	String motivo = "";
     	           	double valorConsignado = 0;
@@ -206,13 +150,13 @@ public class ControlDiff {
     	           	//tramento caso nao haja consignacao
     	           	if(pdfLinhas[i].contains("Não")) {
     	           		String pdfDadosE[] = pdfLinhas[i].split(" Não ");
-    	           		/*Trantamento da possibilidade da linha do consignado ter mais
-    	           		 *substrings iguais a "não" exibindo a linha e encerrando o programa.
-    	           		 */
+    	           		//Trantamento da possibilidade da linha do consignado ter mais
+    	           		 //substrings iguais a "não" exibindo a linha e encerrando o programa.
+    	           		 
     	           		try {
     	           			String contendoMotivo[] = pdfDadosE[1].split(" ");
     	           			for(int j = 2; j < (contendoMotivo.length - 6); j++) {
-    			            	motivo = ControlDiff.removEspacoIniFim(motivo.concat(" "+contendoMotivo[j]));
+    			            	motivo = ControlDiff.removerCaracterIniFim(motivo.concat(" "+contendoMotivo[j]), ' ');
     			            }
     	            		
     	            		valorConsignado = Double.parseDouble(formatParaConversDecimal(contendoMotivo[1]));
@@ -221,9 +165,9 @@ public class ControlDiff {
     		            	valorParcela = Double.parseDouble(formatParaConversDecimal(semMotivo[semMotivo.length - 1]));
     		            	
     		            	for(int j = 3; j < (semMotivo.length - 2); j++) {
-    		            		nome = ControlDiff.removEspacoIniFim(nome.concat(" "+semMotivo[j]));
+    		            		nome = ControlDiff.removerCaracterIniFim(nome.concat(" "+semMotivo[j]), ' ');
     		            	}
-    		            	matricula = ControlDiff.removEspacoIniFim(semMotivo[2]);
+    		            	matricula = ControlDiff.removerCaracterIniFim(semMotivo[2], ' ');
     	           		} catch(Exception e) {
     	           			System.out.println(pdfDadosE);
     	           			document.close();
@@ -237,14 +181,14 @@ public class ControlDiff {
     	           		valorParcela = Double.parseDouble(formatParaConversDecimal(pdfDados[pdfDados.length - 10]));
     	           		
     		            for(int j = 3; j < (pdfDados.length - 11); j++) {
-    		            	nome = ControlDiff.removEspacoIniFim(nome.concat(" "+pdfDados[j]));
+    		            	nome = ControlDiff.removerCaracterIniFim(nome.concat(" "+pdfDados[j]), ' ');
     		            }
     		            
-    		            matricula = ControlDiff.removEspacoIniFim(pdfDados[2]);
+    		            matricula = ControlDiff.removerCaracterIniFim(pdfDados[2], ' ');
     	           	}
     	           	
     	          ConsignadoBra consig = new ConsignadoBra(nome, matricula, contrato, valorParcela, valorConsignado, Integer.parseInt(capturarParcelaAtual(parcelas)), Integer.parseInt(capturarTotalParcelas(parcelas)), consignacao, motivo, agCliente, ctCliente, cpf);
-    	          consignadosA.add(consig);
+    	          diffConsignacoes[diffConsignacao].adicionarConsignado(consig, prioridade);
     	          }
             }
             	
@@ -253,22 +197,18 @@ public class ControlDiff {
         if(document != null) {
            	document.close();
         }
-        
-        ConsignadoBra[] consignadosV = new ConsignadoBra[consignadosA.size()];
-        
-        return consignadosA.toArray(consignadosV);
-    }
+	}
 	
-	public static String removEspacoIniFim(String string) {
+	public static String removerCaracterIniFim(String string, char caracter) {
 		if(string.length() > 0) {
 			int i = 0;//primeiro indice
 			int j = string.length() - 1;//ultimo indice
 			int d = 0;//desconto no fim da string
-			while((string.charAt(i) == ' ') || (string.charAt(j) == ' ')) {
-				if(string.charAt(i) == ' ') {
+			while((string.charAt(i) == caracter) || (string.charAt(j) == caracter)) {
+				if(string.charAt(i) == caracter) {
 					i++;//incrementado para percorrer a string
 				}
-				if(string.charAt(j) == ' ') {
+				if(string.charAt(j) == caracter) {
 					j--;//descrementado para voltar pela string
 					d++;//quantidade espacos no fim da string
 				}
@@ -283,11 +223,11 @@ public class ControlDiff {
 	public static String formatParaConversDecimal(String string) {
 		string  = string.replace(".", "");
 		string = string.replace(",", ".");
-		return removEspacoIniFim(string);
+		return removerCaracterIniFim(string, ' ');
 	}
 	
 	public static boolean convertParaBoolean(String string) {
-		string = removEspacoIniFim(string);
+		string = removerCaracterIniFim(string, ' ');
 		boolean resultado = false;
 		if(string.equals("Sim")) {
 			resultado = true;
@@ -296,45 +236,14 @@ public class ControlDiff {
 	}
 	
 	private String capturarParcelaAtual(String string) {
-		string = removEspacoIniFim(string);
+		string = removerCaracterIniFim(string, ' ');
 		return string.split("/")[0];
 		
 	}
 	
 	private String capturarTotalParcelas(String string) {
-		string = removEspacoIniFim(string);
+		string = removerCaracterIniFim(string, ' ');
 		return string.split("/")[1];
 		
-	}
-	
-	public ConsignadoBB[] concatVetores(ConsignadoBB[][] vetores) {
-		int tamanho = 0;
-		for(int i = 0; i < vetores.length; i++) {
-			tamanho += vetores[i].length; 
-		}
-		ConsignadoBB[] novoVetor = new ConsignadoBB[tamanho];
-		int i = 0;
-		for(ConsignadoBB[] vt: vetores) {
-			for(ConsignadoBB e: vt) {
-				novoVetor[i] = e;
-				i++;
-			}
-		}
-		return novoVetor;
-	}
-	public Consignado[] concatVetoresFolBB(Consignado[][] vetores) {
-		int tamanho = 0;
-		for(int i = 0; i < vetores.length; i++) {
-			tamanho += vetores[i].length; 
-		}
-		Consignado[] novoVetor = new Consignado[tamanho];
-		int i = 0;
-		for(Consignado[] vt: vetores) {
-			for(Consignado e: vt) {
-				novoVetor[i] = e;
-				i++;
-			}
-		}
-		return novoVetor;
 	}
 }

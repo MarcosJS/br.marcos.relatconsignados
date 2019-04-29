@@ -3,40 +3,32 @@ package br.marcos.relatconsignados.model;
 import java.util.ArrayList;
 
 public class Consignacoes {
-	private int quantOperacoes;
 	private String dataRepasse;
 	private double valorRepasse;
 	private ArrayList<Consignado> consignados;
 	
 	public Consignacoes() {
 		this.consignados = new ArrayList<Consignado>();
-		this.setQuantOperacoes(consignados.size());
 		this.setDataRepasse(null);
 		this.setValorRepasse(0);
 	}
 	
-	public void addConsignado(Consignado c) {
-		if((consignados != null) && (!this.existeConsignado(c.getIdConsignado()))) {
-			this.consignados.add(c);
-			this.setQuantOperacoes(this.getQuantOperacoes() + 1);
-			//System.out.println("adicionando: "+c.obterRestoParcelas()+" "+c.getNome()+" "+c.getMatricula()+" "+c.getIdConsignado()+" "+c.getValorParcela()+" "+c.getValorConsignado());
+	public void adicionarConsignado(Consignado novoConsignado) {
+		if((consignados != null) && (!this.existeConsignado(novoConsignado))) {
+			this.consignados.add(novoConsignado);
 		}
 	}
 	
-	public void removConsignado(String idConsignado) {
-		for(Consignado c: this.getVetorConsignacoes()) {
-			if(c.getIdConsignado().equals(idConsignado)) {
-				int i = this.consignados.indexOf(c);
-				this.consignados.remove(i);
-				break;
-			}
+	public void removerConsignado(Consignado consignadoAlvo) {
+		if(!this.consignados.remove(consignadoAlvo)) {
+			System.out.println("!!!!!!!!!! ERRO Consignacoes: linha 20!!!!!!!!!");
 		}
 	}
 	
-	public Consignado obterConsignado(String idConsignado) {
+	public Consignado obterConsignado(Consignado consignadoProcurado) {
 		Consignado consig = null;
 		for(Consignado c: this.getVetorConsignacoes()) {
-			if(c.getIdConsignado().equals(idConsignado)) {
+			if(c.equals(consignadoProcurado)) {
 				consig = c;
 				break;
 			}
@@ -44,17 +36,8 @@ public class Consignacoes {
 		return consig;
 	}
 	
-	public boolean existeConsignado(String idConsignado) {
-		boolean resultado = false;
-		if(consignados != null) {
-			for(Consignado c: this.getVetorConsignacoes()) {
-				if(c.getIdConsignado().equals(idConsignado)) {
-					resultado = true;
-					break;
-				}
-			}
-		}
-		return resultado;
+	public boolean existeConsignado(Consignado consignado) {
+		return consignados.contains(consignado);
 	}
 	
 	public Consignado[]  getVetorConsignacoes() {
@@ -66,10 +49,7 @@ public class Consignacoes {
 	}
 	
 	public int getQuantOperacoes() {
-		return quantOperacoes;
-	}
-	public void setQuantOperacoes(int quantOperacoes) {
-		this.quantOperacoes = quantOperacoes;
+		return consignados.size();
 	}
 	public String getDataRepasse() {
 		return dataRepasse;

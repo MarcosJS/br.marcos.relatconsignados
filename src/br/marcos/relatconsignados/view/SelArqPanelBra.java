@@ -15,7 +15,7 @@ import br.marcos.relatconsignados.control.ControlDiff;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class SelArqPanelBra extends SelArqPanel {
+public class SelArqPanelBra extends PainelSelecaoArquivo {
 	/**
 	 * 
 	 */

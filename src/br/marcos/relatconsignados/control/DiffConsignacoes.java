@@ -2,101 +2,103 @@ package br.marcos.relatconsignados.control;
 
 import br.marcos.relatconsignados.model.Consignacoes;
 import br.marcos.relatconsignados.model.Consignado;
-import br.marcos.relatconsignados.model.ConsignadoBB;
-import br.marcos.relatconsignados.model.ConsignadoBra;
 
 public class DiffConsignacoes {
-	public static final int CONSIG_ATUAL = 0;
-	public static final int CONSIG_ANTERIOR = 1;
-	
 	private Consignacoes[] consignados;
 	
-	public DiffConsignacoes() {
-		this.consignados = new Consignacoes[2];
-		this.consignados[DiffConsignacoes.CONSIG_ATUAL] = new Consignacoes();
-		this.consignados[DiffConsignacoes.CONSIG_ANTERIOR] = new Consignacoes();
-	}
-	
-	public void carregarConsignacoesBB(ConsignadoBB[] consignados1, ConsignadoBB[] consignados2) {
-		for(ConsignadoBB cB: consignados1) {
-			consignados[DiffConsignacoes.CONSIG_ATUAL].addConsignado(cB);
-		}
-		for(ConsignadoBB cB: consignados2) {
-			consignados[DiffConsignacoes.CONSIG_ANTERIOR].addConsignado(cB);
+	/**
+	 * @param quantidade define a quantidade de consignacoes a serem comparadas
+	 * */
+	public DiffConsignacoes(int quantidade) {
+		this.consignados = new Consignacoes[quantidade];
+		for(int i = 0; i < quantidade; i++) {
+			this.consignados[i] = new Consignacoes();
 		}
 	}
 	
-	public void carregarConsignacoesBra(ConsignadoBra[] consignados1, ConsignadoBra[] consignados2) {
-		for(ConsignadoBra cB: consignados1) {
-			consignados[DiffConsignacoes.CONSIG_ATUAL].addConsignado(cB);
-		}
-		for(ConsignadoBra cB: consignados2) {
-			consignados[DiffConsignacoes.CONSIG_ANTERIOR].addConsignado(cB);
-		}
+	public void adicionarConsignado(Consignado consignado, int prioridade) {
+		consignados[prioridade].adicionarConsignado(consignado);
 	}
 	
-	public void carregarConsignacoes(Consignado[] concatVetores, Consignado[] concatVetores2) {
-		// TODO Auto-generated method stub
-		
-	}
-	public Consignado[] obterListConsignacoes(int i) {
-		Consignado[] consignados = null;
-		if(this.consignados[i].getQuantOperacoes() > 0) {
-			consignados = this.consignados[i].getVetorConsignacoes();
-		}
-		return consignados;
+	public void realizarDiff() {
+		this.obterNovos();
+		this.obterExcluidos();
+		this.obterInalterados();
 	}
 	
-	public Consignado[] obterNovosConsignados() {
+	public Consignado[] obterListaConsignacoes(TipoConsignados tipoConsignado) {
+		Consignado[] consig = null;
+		if(this.consignados[tipoConsignado.getValor()].getQuantOperacoes() > 0) {
+			consig = this.consignados[tipoConsignado.getValor()].getVetorConsignacoes();
+		} else {
+			System.out.println("!!!!!!!!!!!!!!!!!!!! erro na linha 58 - DiffConsignacoes !!!!!!!!!!!!!!!!!!");
+		}
+		return consig;
+	}
+	
+	//public Consignado[] obterNovosConsignados() {
+	public void obterNovos() {
 		Consignacoes consigs = new Consignacoes();
-		for(Consignado atualC: this.consignados[DiffConsignacoes.CONSIG_ATUAL].getVetorConsignacoes()) {
+		for(Consignado atualC: this.consignados[TipoConsignados.REFERENCIA.getValor()].getVetorConsignacoes()) {
 			boolean existe = false;
-			for(Consignado c: this.consignados[DiffConsignacoes.CONSIG_ANTERIOR].getVetorConsignacoes()) {
-				if(c.getIdConsignado().equals(atualC.getIdConsignado())) {
+			for(Consignado c: this.consignados[TipoConsignados.AMOSTRA.getValor()].getVetorConsignacoes()) {
+				/*if(c.getIdConsignado().equals(atualC.getIdConsignado())) {
+					existe = true;
+				}*/
+				if(c.equals(atualC)) {
+					existe = true;
+					System.out.println("existe: "+existe);
+				}
+			}
+			if(!existe) {
+				//System.out.println("existe: "+existe+" ->"+atualC.toStringSimple());
+				consigs.adicionarConsignado(atualC);
+			}
+		}
+		this.consignados[TipoConsignados.NOVOS.getValor()] = consigs;
+		//return consigs.getVetorConsignacoes();
+	}
+	
+	//public Consignado[] obterConsignadosExcluidos() {
+	public void obterExcluidos() {
+		Consignacoes consigs = new Consignacoes();
+		for(Consignado c: consignados[TipoConsignados.AMOSTRA.getValor()].getVetorConsignacoes()) {
+			boolean existe = false;
+			for(Consignado thisConsignado: this.consignados[TipoConsignados.REFERENCIA.getValor()].getVetorConsignacoes()) {
+				if(c.equals(thisConsignado)) {
 					existe = true;
 				}
 			}
 			if(!existe) {
-				consigs.addConsignado(atualC);
+				consigs.adicionarConsignado(c);
 			}
 		}
-		return consigs.getVetorConsignacoes();
+		this.consignados[TipoConsignados.EXCLUIDOS.getValor()] = consigs;
+		//return consigs.getVetorConsignacoes();
 	}
 	
-	public Consignado[] obterConsignadosExcluidos() {
-		Consignacoes consigs = new Consignacoes();
-		for(Consignado c: consignados[DiffConsignacoes.CONSIG_ANTERIOR].getVetorConsignacoes()) {
-			boolean existe = false;
-			for(Consignado thisC: this.consignados[DiffConsignacoes.CONSIG_ATUAL].getVetorConsignacoes()) {
-				if(c.getIdConsignado().equals(thisC.getIdConsignado())) {
-					existe = true;
-				}
-			}
-			if(!existe) {
-				consigs.addConsignado(c);
-			}
-		}
-		return consigs.getVetorConsignacoes();
-	}
-	
-	public Consignado[] obterInalterados() {
+	//public Consignado[] obterInalterados() {
+	public void obterInalterados() {
 		Consignacoes consigsInalterados = new Consignacoes();
-		for(Consignado c: this.consignados[DiffConsignacoes.CONSIG_ATUAL].getVetorConsignacoes()) {
-			consigsInalterados.addConsignado(c);
+		for(Consignado c: this.consignados[TipoConsignados.REFERENCIA.getValor()].getVetorConsignacoes()) {
+			consigsInalterados.adicionarConsignado(c);
 		}
 		
-		for(Consignado c: this.obterNovosConsignados()) {
-			consigsInalterados.removConsignado(c.getIdConsignado());
+		//for(Consignado consignado: this.obterNovosConsignados()) {
+		for(Consignado consignado: this.consignados[TipoConsignados.NOVOS.getValor()].getVetorConsignacoes()) {
+			consigsInalterados.removerConsignado(consignado);
 		}
 		
-		for(Consignado c: this.obterConsignadosExcluidos()) {
-			consigsInalterados.removConsignado(c.getIdConsignado());
+		//for(Consignado consignado: this.obterConsignadosExcluidos()) {
+		for(Consignado consignado: this.consignados[TipoConsignados.NOVOS.getValor()].getVetorConsignacoes()) {
+			consigsInalterados.removerConsignado(consignado);
 		}
 		
-		return consigsInalterados.getVetorConsignacoes();
+		this.consignados[TipoConsignados.INALTERADOS.getValor()] = consigsInalterados;
+		//return consigsInalterados.getVetorConsignacoes();
 	}
 	
-	public int getQuantOperacoes(int i) {
-		return consignados[i].getQuantOperacoes();
+	public int getQuantOperacoes(TipoConsignados tipoConsignados) {
+		return consignados[tipoConsignados.getValor()].getQuantOperacoes();
 	}
 }
